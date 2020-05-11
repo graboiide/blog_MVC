@@ -1,0 +1,48 @@
+{
+  "/": {
+    "module": "home",
+    "controller": "home",
+    "name": "home"
+  },
+  "/page-[i:page]": {
+    "module": "home",
+    "controller": "home",
+    "name": "home_"
+  },
+  "/admin": {
+    "module": "home",
+    "controller": "admin",
+    "name": "admin_home",
+    "method": "GET"
+  },
+  "/show-[a:slug]": {
+    "module": "show",
+    "controller": "home",
+    "name": "show",
+    "method": "GET"
+  },
+  "/admin/postblogs": {
+    "module": "postblogs",
+    "controller": "admin",
+    "name": "admin_postblogs",
+    "method": "GET"
+  },
+  "/admin/comments": {
+    "module": "comments",
+    "controller": "admin",
+    "name": "admin_comments",
+    "method": "GET"
+  },
+  "/admin/comment": {
+    "module": "comment",
+    "controller": "admin",
+    "name": "admin_comment",
+    "method": "GET"
+  },
+  "/admin/profile": {
+    "module": "profile",
+    "controller": "admin",
+    "name": "admin_profile",
+    "method": "GET"
+  }
+}

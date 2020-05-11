@@ -1,0 +1,19 @@
+{
+  "twig": {
+    "template_path": "../Template/"
+  },
+  "blog_post": {
+    "number_home": 5,
+    "number_per_page": 5,
+    "order": "by_date"
+  },
+  "router": {
+    "route_path": "../Config/routes.json",
+    "file_type": "json"
+  },
+  "database": {
+    "number_home": 5,
+    "number_per_page": 5,
+    "order": "by_date"
+  }
+}
