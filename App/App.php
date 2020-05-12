@@ -4,26 +4,43 @@ namespace App;
 
 use AltoRouter;
 use App\Src\Service\Config;
-use http\Params;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use App\Src\Service\Renderer\TwigRenderer;
+
+
 
 class App
 {
-    private $twig;
+
     private $config;
+    private $renderer;
 
     public function __construct()
     {
         $this->config = new Config();
-        $loader = new FilesystemLoader($this->config->getVar("twig template_path"));
-        $twig = new Environment($loader);
-        $this->twig = $twig;
+        $this->renderer = new TwigRenderer($this->config->getVar('twig template_path'));
+
+    }
+
+    /**
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return TwigRenderer
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
     }
     public function run()
     {
-        if($controller = $this->getController())
-            $controller->execute();
+
+            if($controller = $this->getController())
+                $controller->execute();
 
     }
 
@@ -63,15 +80,4 @@ class App
         return null;
     }
 
-    public function render($path,$params = null)
-    {
-        if(file_exists($this->config->getVar('twig template_path').$path))
-        {
-            if($params !== null)
-                echo $this->twig->render($path,$params);
-            else
-                echo $this->twig->render($path);
-        }
-
-    }
 }

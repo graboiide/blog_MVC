@@ -2,6 +2,7 @@
 
 
 use App\App;
+use App\Src\Service\TwigRenderer;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
