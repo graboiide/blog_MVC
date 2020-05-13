@@ -4,7 +4,7 @@ namespace App\Src\Controller;
 
 
 
-class adminController extends backController
+class AdminController extends backController
 {
     public function home()
     {

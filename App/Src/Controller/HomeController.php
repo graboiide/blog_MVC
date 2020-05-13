@@ -3,7 +3,7 @@
 namespace App\Src\Controller;
 
 
-class homeController extends backController
+class HomeController extends backController
 {
     public function home()
     {

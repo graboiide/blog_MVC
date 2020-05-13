@@ -3,9 +3,10 @@
 namespace App;
 
 use AltoRouter;
+use App\Src\Controller\backController;
 use App\Src\Service\Config;
 use App\Src\Service\Renderer\TwigRenderer;
-
+use Exception;
 
 
 class App
@@ -39,13 +40,23 @@ class App
     public function run()
     {
 
-            if($controller = $this->getController())
+        try {
+            if ($controller = $this->getController()) {
+                /**
+                 * @var $controller BackController
+                 */
                 $controller->execute();
+
+            }
+        } catch (Exception $e) {
+        }
+
 
     }
 
     /**
-     * Retourne la bon controller
+     * Retourne le bon controller
+     * @throws Exception
      */
     public function getController()
     {
@@ -64,6 +75,7 @@ class App
         foreach ($routes as $key => $route){
             $router->map(isset($route['method']) ? $route['method'] : 'GET',$key,$route['controller'].'#'.$route['module'],$route['name']);
         }
+
         if($match = $router->match())
         {
 
@@ -75,7 +87,7 @@ class App
 
         }
         else{
-            $this->render('Errors/404.html.twig');
+            $this->renderer->render('Errors/404.html.twig');
         }
         return null;
     }

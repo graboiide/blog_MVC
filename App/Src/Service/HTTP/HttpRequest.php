@@ -8,11 +8,11 @@ class  HttpRequest
 {
     public function cookie($key)
     {
-        return isset($_COOKIE['key']) ? $_COOKIE['key'] : null;
+        return isset($_COOKIE[$key]) ? $_COOKIE[$key] : null;
     }
     public function get($key)
     {
-        return isset($_GET['key']) ? $_GET['key'] : null;
+        return isset($_GET[$key]) ? $_GET[$key] : null;
     }
     public function method()
     {
@@ -20,7 +20,7 @@ class  HttpRequest
     }
     public function post($key)
     {
-        return isset($_POST['key']) ? $_POST['key'] : null;
+        return isset($_POST[$key]) ? $_POST[$key] : null;
     }
 
 }
