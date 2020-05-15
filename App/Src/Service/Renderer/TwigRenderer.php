@@ -23,15 +23,17 @@ class TwigRenderer implements RendererInterface
     {
         try {
             echo $this->twig->render($path, $params);
+            dump($this->twig);
         } catch (LoaderError $e) {
         } catch (RuntimeError $e) {
         } catch (SyntaxError $e) {
         }
     }
 
-    public function addGlabal($key,$value)
+    public function addGlobal($key,$value)
     {
         $this->twig->addGlobal($key,$value);
+        return $this;
     }
 
 }

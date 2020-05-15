@@ -50,7 +50,11 @@ class BackController
 
     public function render($path,$params = []):void
     {
-         $this->app->getRenderer()->render($path,$params);
+
+        $this->app->getRenderer()
+            ->addGlobal('router',$this->app->getRouter())
+            ->render($path,$params);
+
     }
 
 }

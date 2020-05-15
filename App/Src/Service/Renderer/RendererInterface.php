@@ -6,5 +6,5 @@ interface RendererInterface
 {
     public function render($path, $params = []);
 
-    public function addGlabal($key, $value);
+    public function addGlobal($key, $value);
 }

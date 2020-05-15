@@ -14,9 +14,19 @@ class App
 
     private $config;
     private $renderer;
+    private $router;
+
+    /**
+     * @return AltoRouter
+     */
+    public function getRouter(): AltoRouter
+    {
+        return $this->router;
+    }
 
     public function __construct()
     {
+        $this->router = new AltoRouter();
         $this->config = new Config();
         $this->renderer = new TwigRenderer($this->config->getVar('twig template_path'));
 
@@ -66,17 +76,18 @@ class App
         else
             die('No route file found');
 
-        $router = new AltoRouter();
+
 
         //add map at router
         $routes =[];
         foreach (json_decode($json,true) as $key => $route)
             $routes[$key] = $route;
         foreach ($routes as $key => $route){
-            $router->map(isset($route['method']) ? $route['method'] : 'GET',$key,$route['controller'].'#'.$route['module'],$route['name']);
+            $this->router->map(isset($route['method']) ? $route['method'] : 'GET',$key,$route['controller'].'#'.$route['module'],$route['name']);
         }
 
-        if($match = $router->match())
+
+        if($match = $this->router->match())
         {
 
             if($match['params']){
