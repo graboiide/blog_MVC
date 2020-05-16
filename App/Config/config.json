@@ -12,8 +12,9 @@
     "file_type": "json"
   },
   "database": {
-    "number_home": 5,
-    "number_per_page": 5,
-    "order": "by_date"
+    "host": "localhost",
+    "dbname": "p5_blog",
+    "user": "root",
+    "password": ""
   }
 }

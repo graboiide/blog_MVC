@@ -4,6 +4,11 @@
     "controller": "home",
     "name": "home"
   },
+  "/add_blog": {
+    "module": "addBlogPost",
+    "controller": "admin",
+    "name": "addBlog"
+  },
   "/page-[i:page]": {
     "module": "home",
     "controller": "home",

@@ -1,1 +1,5 @@
-<h1> La page d'accueil {{ blog.id }} dd {{ router.generate('show',{'slug':'rt'}) }} </h1>
+{% if not blog %}
+    <h1> La page d'accueil  </h1>
+{% else %}
+    <h1> blog ajouter "{{ blog.title }}" redirection : {{ router.generate('home') }} </h1>
+{% endif %}

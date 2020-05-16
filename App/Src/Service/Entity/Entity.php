@@ -2,10 +2,12 @@
 
 namespace App\Src\Service\Entity;
 
-class Entity
+use App\Src\Service\Converter\NamingConventionConverter;
+
+abstract class Entity
 {
 
-    private $id;
+    protected $id;
 
     public function __construct($data)
     {
@@ -19,16 +21,11 @@ class Entity
      */
     public function hydrate($data):void
     {
+        //Permet de convertir les nommages entre les attributs de table et propriétés de class
+        $conventionConverter = new NamingConventionConverter();
         foreach ($data as $key => $value)
         {
-
-            $method = '';
-            //snake_case to camelCase
-            foreach (explode('_',$key) as $word){
-                $method .= ucfirst($word);
-
-            }
-
+            $method = $conventionConverter->snakeCaseToCamelCase($key);
             if(method_exists($this,'get'.$method))
             {
                 $method = 'set'.$method;
@@ -50,5 +47,19 @@ class Entity
     {
         $this->id = $id;
     }
+    public function getProperties()
+    {
+       return get_object_vars($this);
+    }
+    public function getClass()
+    {
+        $ncc = new NamingConventionConverter();
+        $className = explode('\\',get_called_class());
+        $className = $ncc->pascalCaseToSnakeCase(array_pop($className));
+        return $className = substr($className, 0, -7);
+    }
+
+
+
 
 }

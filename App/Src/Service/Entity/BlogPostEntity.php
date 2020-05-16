@@ -6,24 +6,66 @@ namespace App\Src\Service\Entity;
 
 class BlogPostEntity extends Entity
 {
-    private $contain;
-    private $chapo;
-    private $image;
-    private $title;
-    private $slug;
-    private $date;
-    private $dateMaj;
-    private $isPublished;
-    private $userId;
+    /*
+     * Declare at protected the property save in database
+     */
+    protected $contain;
+    protected $chapo;
+    protected $image;
+    protected $title;
+    protected $slug;
+    protected $date;
+    protected $dateMaj;
+    protected $isPublished;
+    protected $userId;
+    /*
+    * property not saving
+    */
     private $comments = [];
     private $userBlogPost = [];
+
+    public function __construct($data)
+    {
+        parent::__construct($data);
+    }
+
+
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getDateMaj()
     {
-        return $this->useId;
+        return $this->dateMaj;
     }
+
+    /**
+     * @param mixed $dateMaj
+     */
+    public function setDateMaj($dateMaj): void
+    {
+        $this->dateMaj = $dateMaj;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserBlogPost(): array
+    {
+        return $this->userBlogPost;
+    }
+
+    /**
+     * @param array $userBlogPost
+     */
+    public function setUserBlogPost(array $userBlogPost): void
+    {
+        $this->userBlogPost = $userBlogPost;
+    }
+
+
+
+
+
 
     /**
      * @param mixed $user_id
@@ -33,6 +75,13 @@ class BlogPostEntity extends Entity
         $this->userId = $user_id;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 
     /**
      * @return mixed
@@ -131,19 +180,11 @@ class BlogPostEntity extends Entity
     }
 
     /**
-     * @return mixed
+     * @param mixed $is_published
      */
-    public function getDateMaj()
+    public function setIsPublished($is_published): void
     {
-        return $this->dat_maj;
-    }
-
-    /**
-     * @param mixed $dat_maj
-     */
-    public function setDateMaj($dat_maj): void
-    {
-        $this->dat_maj = $dat_maj;
+        $this->isPublished = $is_published;
     }
 
     /**
@@ -151,15 +192,7 @@ class BlogPostEntity extends Entity
      */
     public function getIsPublished()
     {
-        return $this->is_published;
-    }
-
-    /**
-     * @param mixed $is_published
-     */
-    public function setIsPublished($is_published): void
-    {
-        $this->isPublished = $is_published;
+        return $this->isPublished;
     }
 
     /**
@@ -178,21 +211,7 @@ class BlogPostEntity extends Entity
         $this->comments = $comments;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUserblogpost()
-    {
-        return $this->userblogpost;
-    }
 
-    /**
-     * @param mixed $userblogpost
-     */
-    public function setUserblogpost($userblogpost): void
-    {
-        $this->userblogpost = $userblogpost;
-    }
    
 
 

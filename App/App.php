@@ -16,13 +16,7 @@ class App
     private $renderer;
     private $router;
 
-    /**
-     * @return AltoRouter
-     */
-    public function getRouter(): AltoRouter
-    {
-        return $this->router;
-    }
+
 
     public function __construct()
     {
@@ -30,6 +24,15 @@ class App
         $this->config = new Config();
         $this->renderer = new TwigRenderer($this->config->getVar('twig template_path'));
 
+
+    }
+
+    /**
+     * @return AltoRouter
+     */
+    public function getRouter(): AltoRouter
+    {
+        return $this->router;
     }
 
     /**
