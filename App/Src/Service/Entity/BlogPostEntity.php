@@ -24,7 +24,7 @@ class BlogPostEntity extends Entity
     private $comments = [];
     private $userBlogPost = [];
 
-    public function __construct($data)
+    public function __construct($data = [])
     {
         parent::__construct($data);
     }
