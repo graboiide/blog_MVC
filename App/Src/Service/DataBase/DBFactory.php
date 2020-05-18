@@ -25,13 +25,13 @@ class DBFactory
                self::$instancePDO = $db;
                return $db;
            }catch (PDOException $e) {
-               die($e->getMessage());
+               print_r($e->getMessage());
            }
        }
        else {
            return self::$instancePDO;
        }
-
+        return null;
 
    }
 

@@ -22,8 +22,7 @@ class TwigRenderer implements RendererInterface
     public function render($path,$params =[]):void
     {
         try {
-            echo $this->twig->render($path, $params);
-            dump($this->twig);
+            print_r($this->twig->render($path, $params)) ;
         } catch (LoaderError $e) {
         } catch (RuntimeError $e) {
         } catch (SyntaxError $e) {

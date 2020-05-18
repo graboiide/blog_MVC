@@ -42,7 +42,7 @@ class BackController
             }
         }catch (Exception $e)
         {
-            echo $e->getMessage();
+            print_r($e->getMessage()) ;
         }
 
         $this->$method();

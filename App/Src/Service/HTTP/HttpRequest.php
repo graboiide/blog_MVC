@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Src\Service;
+namespace App\Src\Service\HTTP;
 
 
 class  HttpRequest
@@ -10,9 +10,12 @@ class  HttpRequest
     {
         return isset($_COOKIE[$key]) ? $_COOKIE[$key] : null;
     }
-    public function get($key)
+    public function get($key,$protect = true)
     {
-        return isset($_GET[$key]) ? $_GET[$key] : null;
+        if($protect)
+            return isset($_GET[$key]) ? htmlentities($_GET[$key]) : null;
+        else
+            return isset($_GET[$key]) ? $_GET[$key] : null;
     }
     public function method()
     {

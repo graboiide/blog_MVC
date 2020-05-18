@@ -4,7 +4,10 @@ namespace App\Src\Controller;
 
 use App\Src\Service\DataBase\DBFactory;
 use App\Src\Service\Entity\BlogPostEntity;
+
+use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\Manager\Manager;
+
 
 class HomeController extends backController
 {
@@ -15,7 +18,7 @@ class HomeController extends backController
             'criteria'=>[
                 'is_published'=>1
             ],
-            'order'=>'id',
+            'order'=>'date',
             'limit'=>0,
             'offset'=>8
         ]);
@@ -25,7 +28,8 @@ class HomeController extends backController
     }
     public function show()
     {
-        $this->render('Front/views/show.html.twig',["slug"=>$_GET['slug']]);
+        $request = new HttpRequest();
+        $this->render('Front/views/show.html.twig',["slug"=>$request->get('slug')]);
     }
 
 

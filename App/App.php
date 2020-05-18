@@ -74,10 +74,11 @@ class App
     public function getController()
     {
         $pathFileRoutes = $this->config->getVar("router route_path");
-        if(file_exists($pathFileRoutes))
+        if(is_file($pathFileRoutes))
+
             $json = file_get_contents($pathFileRoutes);
         else
-            die('No route file found');
+            return 'No route file found';
 
 
 
@@ -92,10 +93,13 @@ class App
 
         if($match = $this->router->match())
         {
-
+            //Ajout super global $_GET
             if($match['params']){
-                $_GET = array_merge($_GET,$match['params']);
+                foreach($match['params'] as $key => $value){
+                    $_GET[$key] = $value;
+                }
             }
+
             $controllerClass = '\App\Src\Controller\\'.explode('#',$match['target'])[0].'Controller';
             return new $controllerClass($this,explode('#',$match['target'])[1],$match['params']);
 
