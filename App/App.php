@@ -83,23 +83,13 @@ class App
 
 
         //add map at router
-        $routes =[];
-        foreach (json_decode($json,true) as $key => $route)
-            $routes[$key] = $route;
+        $routes =json_decode($json,true);
         foreach ($routes as $key => $route){
             $this->router->map(isset($route['method']) ? $route['method'] : 'GET',$key,$route['controller'].'#'.$route['module'],$route['name']);
         }
-
-
         if($match = $this->router->match())
         {
-            //Ajout super global $_GET
-            if($match['params']){
-                foreach($match['params'] as $key => $value){
-                    $_GET[$key] = $value;
-                }
-            }
-
+            $_GET = array_merge($_GET,$match['params']);
             $controllerClass = '\App\Src\Controller\\'.explode('#',$match['target'])[0].'Controller';
             return new $controllerClass($this,explode('#',$match['target'])[1],$match['params']);
 

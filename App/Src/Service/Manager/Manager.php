@@ -45,30 +45,19 @@ class Manager
      */
     protected function add(Entity $entity)
     {
-        $tokens = [];
-        //Créer le tableau de colonne en snake_case
-        foreach (array_keys($entity->getProperties()) as $key)
-            if($key !== "id")
-                $tokens[] = $this->convert->camelCaseToSnakeCase($key);
+        //Créer le tableau de colonne
+        $select = array_keys(array_filter($entity->getProperties()));
+        $sql = 'INSERT INTO '.$entity->getClass().' ('.$this->convert->camelCaseToSnakeCase(implode(',',$select)).') 
+        VALUES ( :'.$this->convert->camelCaseToSnakeCase(implode(', :',$select)).')';
 
-        $sql = 'INSERT INTO '.$entity->getClass().' ('.implode(',',$tokens).') VALUES ( :'.implode(', :',$tokens).')';
-
-        try {
             $request = $this->db->prepare($sql);
-            foreach ($entity->getProperties() as $key => $value)
+            foreach (array_filter($entity->getProperties()) as $key => $value)
             {
-                if($key !== "id")
-                {
                     $key = $this->convert->camelCaseToSnakeCase($key);
                     $request->bindValue(':'.$key,$value);
-                }
             }
             $request->execute();
             return $this->db->lastInsertId();
-        }catch (Exception $e){
-            echo $e->getMessage();
-        }
-        return null;
     }
 
     /**
@@ -77,28 +66,19 @@ class Manager
      */
     protected function update(Entity $entity):void
     {
-        $sql='';
-        foreach ($entity->getProperties() as $key => $value)
-        {
-            if($key !== "id")
-            {
-                if($value !== null)
-                {
-                    $key = $this->convert->camelCaseToSnakeCase($key);
-                    $sql .= $key.'=:'.$key.', ';
-                }
-            }
-        }
-        $sql = substr($sql, 0, -2);
-        $q = 'UPDATE '.$entity->getClass().' SET '.$sql.' WHERE id=:id';
+
+        $sql = array_map(function ($data){
+            return ''.$data.' = :'.$data;
+        },array_keys(array_filter($entity->getProperties())));
+
+        $q = 'UPDATE '.$entity->getClass().' SET '.$this->convert->camelCaseToSnakeCase(implode(', ',$sql)).' WHERE id=:id';
         try {
             $request = $this->db->prepare($q);
-            foreach ($entity->getProperties() as $key => $value)
+            foreach (array_filter($entity->getProperties()) as $key => $value)
             {
-                if($value !== null) {
                     $key = $this->convert->camelCaseToSnakeCase($key);
                     $request->bindValue(':' . $key, $value);
-                }
+
             }
             $request->execute();
         }catch (Exception $e){

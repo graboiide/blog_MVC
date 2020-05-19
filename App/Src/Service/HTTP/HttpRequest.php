@@ -6,16 +6,16 @@ namespace App\Src\Service\HTTP;
 
 class  HttpRequest
 {
+
+    
     public function cookie($key)
     {
-        return isset($_COOKIE[$key]) ? $_COOKIE[$key] : null;
+        $cookie = filter_input(INPUT_COOKIE,$key);
+        return isset($cookie) ? $cookie : null;
     }
-    public function get($key,$protect = true)
+    public function get($key)
     {
-        if($protect)
-            return isset($_GET[$key]) ? htmlentities($_GET[$key]) : null;
-        else
-            return isset($_GET[$key]) ? $_GET[$key] : null;
+        return isset($_GET[$key]) ? $_GET[$key] : null;
     }
     public function method()
     {
@@ -25,5 +25,7 @@ class  HttpRequest
     {
         return isset($_POST[$key]) ? $_POST[$key] : null;
     }
+
+
 
 }

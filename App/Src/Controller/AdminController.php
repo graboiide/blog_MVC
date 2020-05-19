@@ -22,7 +22,7 @@ class AdminController extends backController
         $date1 = $date1->format("Y-m-d");
 
         $dataBlogPost = [
-
+            "id"  => 5,
             "contain" => 'test de modification 3' ,
             "chapo" => 'ffg_ gg',
             "image" => 'https://via.placeholder.com/150',
