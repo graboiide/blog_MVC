@@ -2,7 +2,7 @@
 
 namespace App\Src\Service\Entity;
 
-use App\Src\Service\Converter\NamingConventionConverter;
+use App\Src\Service\Converter\NamingConverter;
 
 abstract class Entity
 {
@@ -22,10 +22,10 @@ abstract class Entity
     public function hydrate($data):void
     {
         //Permet de convertir les nommages entre les attributs de table et propriétés de class
-        $conventionConverter = new NamingConventionConverter();
+
         foreach ($data as $key => $value)
         {
-            $method = $conventionConverter->snakeCaseToCamelCase($key);
+            $method = NamingConverter::toCamelCase($key);
             if(method_exists($this,'get'.$method))
             {
                 $method = 'set'.$method;
@@ -53,10 +53,10 @@ abstract class Entity
     }
     public function getClass()
     {
-        $ncc = new NamingConventionConverter();
+
         $className = explode('\\',get_called_class());
-        $className = $ncc->pascalCaseToSnakeCase(array_pop($className));
-        return $className = substr($className, 0, -7);
+        $className = array_pop($className);
+        return $className = substr($className, 0, -6);
     }
 
 

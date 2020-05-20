@@ -2,27 +2,21 @@
 
 namespace App\Src\Controller;
 
-use App\Src\Service\DataBase\DBFactory;
 use App\Src\Service\Entity\BlogPostEntity;
-
 use App\Src\Service\HTTP\HttpRequest;
-use App\Src\Service\Manager\Manager;
-
+use App\Src\Service\Manager\BlogPostManager;
 
 class HomeController extends backController
 {
     public function home()
     {
-        $manager = new Manager(DBFactory::PDOMysqlDB($this->app->getConfig()->getVar("database")));
-        $blog = $manager->findAll(BlogPostEntity::class,[
-            'criteria'=>[
-                'is_published'=>1
-            ],
-            'order'=>'date',
-            'limit'=>0,
-            'offset'=>8
-        ]);
-        dump($blog);
+
+        /**
+         * @var BlogPostManager $blogManager
+         */
+        $blogManager = $this->manager->getEntityManager(BlogPostEntity::class);
+        dump($blogManager->listPublished(0,1));
+
 
         $this->render('Front/Views/home.html.twig');
     }

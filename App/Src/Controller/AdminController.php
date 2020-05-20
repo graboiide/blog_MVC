@@ -2,11 +2,8 @@
 
 namespace App\Src\Controller;
 
-
-
-use App\Src\Service\DataBase\DBFactory;
 use App\Src\Service\Entity\BlogPostEntity;
-use App\Src\Service\Manager\Manager;
+use App\Src\Service\Manager\BlogPostManager;
 use DateTime;
 
 class AdminController extends backController
@@ -17,13 +14,10 @@ class AdminController extends backController
     }
     public function addBlogPost()
     {
-
         $date1 = new DateTime('now');
         $date1 = $date1->format("Y-m-d");
-
         $dataBlogPost = [
-            "id"  => 5,
-            "contain" => 'test de modification 3' ,
+            "contain" => 'tevde mdddodification 3' ,
             "chapo" => 'ffg_ gg',
             "image" => 'https://via.placeholder.com/150',
             "title" => 'mon premier blog',
@@ -33,8 +27,10 @@ class AdminController extends backController
             'user_id'=>1
         ];
 
-        $db = DBFactory::PDOMysqlDB($this->app->getConfig()->getVar('database'));
-        $manager = new Manager($db);
+        /**
+         * @var BlogPostManager $manager
+         */
+        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
         $blogPost = new BlogPostEntity($dataBlogPost);
         $manager->save($blogPost);
 
