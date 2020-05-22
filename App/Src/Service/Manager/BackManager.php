@@ -2,24 +2,24 @@
 
 
 namespace App\Src\Service\Manager;
-use App\Src\Service\Converter\NamingConverter;
+
 use App\Src\Service\Entity\Entity;
 use Exception;
 
 class BackManager extends Manager
 {
 
-    public function save(Entity $entity):void
+    public function save(Entity $entity)
     {
         $exist = $entity->getId() !== null ? true : false;
 
         if(!$exist)
             //ajouter une entité en bdd
-            $this->add($entity);
+           return $this->add($entity);
 
         else
             //modifier une entité en bdd
-            $this->update($entity);
+           return $this->update($entity);
 
     }
 
@@ -30,46 +30,47 @@ class BackManager extends Manager
      */
     protected function add(Entity $entity)
     {
-
         //Créer le tableau de colonne
-        $select = array_keys(array_filter($entity->getProperties()));
-        $sql = 'INSERT INTO '.NamingConverter::toSnakeCase($entity->getClass()).' ('.NamingConverter::toSnakeCase(implode(',',$select)).') 
-        VALUES ( :'.NamingConverter::toSnakeCase(implode(', :',$select)).')';
+        $select = implode(', ',$entity->extractAttributes());
+        $tokens = implode(', :',$entity->extractAttributes());
 
-            $request = $this->db->prepare($sql);
-            foreach (array_filter($entity->getProperties()) as $key => $value)
-            {
-                    $key = NamingConverter::toSnakeCase($key);
-                    $request->bindValue(':'.$key,$value);
-            }
-            $request->execute();
-            return $this->db->lastInsertId();
+        $sql = 'INSERT INTO'.' '.$entity->extractTable().' ('.$select.') VALUES ( :'.$tokens.')';
+
+
+        $request = $this->db->prepare($sql);
+
+        foreach ($entity->extractAttributes(false) as $key => $value)
+            $request->bindValue(':'.$key,$value);
+
+        $request->execute();
+        return $this->db->lastInsertId();
     }
 
     /**
      * Modifie un entité en bdd
      * @param Entity $entity
      */
-    protected function update(Entity $entity):void
+    protected function update(Entity $entity)
     {
 
         $sql = array_map(function ($data){
             return ''.$data.' = :'.$data;
-        },array_keys(array_filter($entity->getProperties())));
+        },$entity->extractAttributes());
 
-        $q = 'UPDATE '.NamingConverter::toSnakeCase($entity->getClass()).' SET '.NamingConverter::toSnakeCase(implode(', ',$sql)).' WHERE id=:id';
+        $set = implode(', ',$sql);
+        $q = 'UPDATE '.$entity->extractTable().' SET '.$set.' WHERE id=:id';
+
         try {
             $request = $this->db->prepare($q);
-            foreach (array_filter($entity->getProperties()) as $key => $value)
-            {
-                    $key = NamingConverter::toSnakeCase($key);
-                    $request->bindValue(':' . $key, $value);
 
-            }
+            foreach ($entity->extractAttributes(false) as $key => $value)
+                $request->bindValue(':' . $key, $value);
+
             $request->execute();
         }catch (Exception $e){
             echo $e->getMessage();
         }
+        return $this->db->lastInsertId();
 
     }
 

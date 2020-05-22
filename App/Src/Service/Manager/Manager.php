@@ -10,6 +10,7 @@ use PDO;
 class Manager
 {
     protected $propertiesEntity;
+    protected $attributes;
     protected $db;
 
     public function __construct($db)
@@ -38,6 +39,8 @@ class Manager
                  */
                 $manager = new $manager($this->db);
                 $manager->propertiesEntity = array_keys($entity->getProperties());
+
+                $manager->attributes = $entity->extractAttributes(true,false);
                 return $manager;
             }
 

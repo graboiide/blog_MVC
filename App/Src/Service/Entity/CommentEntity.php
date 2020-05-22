@@ -6,10 +6,27 @@ namespace App\Src\Service\Entity;
 
 class CommentEntity extends Entity
 {
-    private $date;
-    private $message;
-    private $isValidate;
-    private $postBlogId;
+    protected $date;
+    protected $message;
+    protected $isValidate;
+    protected $postBlogId;
+    protected $name;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
     /**
      * @return mixed
      */
