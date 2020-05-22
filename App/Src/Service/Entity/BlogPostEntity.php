@@ -22,7 +22,24 @@ class BlogPostEntity extends Entity
     * property not saving
     */
     private $comments = [];
+    private $nbComment;
     private $userBlogPost = [];
+
+    /**
+     * @return mixed
+     */
+    public function getNbComment()
+    {
+        return $this->nbComment;
+    }
+
+    /**
+     * @param mixed $nbComment
+     */
+    public function setNbComment($nbComment): void
+    {
+        $this->nbComment = $nbComment;
+    }
 
     public function __construct($data = [])
     {

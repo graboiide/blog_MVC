@@ -4,10 +4,10 @@ namespace App\Src\Controller;
 
 
 
-use App\Src\Service\DataBase\DBFactory;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Manager\Manager;
 use DateTime;
+
 
 class AdminController extends backController
 {
@@ -22,8 +22,8 @@ class AdminController extends backController
         $date1 = $date1->format("Y-m-d");
 
         $dataBlogPost = [
-            "id"  => 5,
-            "contain" => 'test de modification 3' ,
+
+            "contain" => 'dication 3' ,
             "chapo" => 'ffg_ gg',
             "image" => 'https://via.placeholder.com/150',
             "title" => 'mon premier blog',
@@ -33,13 +33,60 @@ class AdminController extends backController
             'user_id'=>1
         ];
 
-        $db = DBFactory::PDOMysqlDB($this->app->getConfig()->getVar('database'));
-        $manager = new Manager($db);
+        /**
+         * @var Manager $manager
+         */
+        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
         $blogPost = new BlogPostEntity($dataBlogPost);
         $manager->save($blogPost);
 
         $this->render('Front/Views/home.html.twig',["blog" => $blogPost]);
     }
 
+    /*
+    public function faker()
+    {
+
+        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
+        $faker = Faker\Factory::create();
+        for ($i=0 ; $i<15 ; $i++){
+            dump("ajout blog");
+            $date = $faker->dateTimeBetween('-1 years','now');
+            $dataBlogPost = [
+                "contain" => $faker->sentence(mt_rand(30, 100)) ,
+                "chapo" => $faker->sentence(mt_rand(5, 20)),
+                "image" => 'https://picsum.photos/840/480?random='.$i,
+                "title" => $faker->sentence(mt_rand(1, 7)),
+                "slug" => $faker->slug,
+                "date" => $date->format("Y-m-d"),
+                "is_published" => 1,
+                'user_id'=>1
+            ];
+            $blog = new BlogPostEntity($dataBlogPost);
+            $idBlog = $manager->save($blog);
+            dump($blog);
+            // Les commentaires
+            $manager = $this->manager->getEntityManager(CommentEntity::class);
+            $nbComments = mt_rand(0,8);
+            dump("ajout de ".$nbComments." commentaires");
+            for ($j=0 ; $j<$nbComments ; $j++){
+                $date = $faker->dateTimeBetween('-1 years','now');
+                $dataComment = [
+                    "date" =>$date->format("Y-m-d H:m"),
+                    "message" => $faker->sentence(mt_rand(5, 20)),
+                    "is_validate" => 1,
+                    "post_blog_id" => $idBlog,
+                    "name" => $faker->name
+                ];
+                $comment = new CommentEntity($dataComment);
+                $manager->save($comment);
+                dump($comment);
+            }
+        }
+
+
+        $this->render('Front/Views/home.html.twig');
+    }
+    */
 
 }

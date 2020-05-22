@@ -20,7 +20,7 @@
     "name": "admin_home",
     "method": "GET"
   },
-  "/show-[a:slug]": {
+  "/show-[i:id]": {
     "module": "show",
     "controller": "home",
     "name": "show",
@@ -48,6 +48,12 @@
     "module": "profile",
     "controller": "admin",
     "name": "admin_profile",
+    "method": "GET"
+  },
+  "/admin/faker": {
+    "module": "faker",
+    "controller": "admin",
+    "name": "admin_faker",
     "method": "GET"
   }
 }

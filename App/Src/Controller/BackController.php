@@ -6,6 +6,9 @@ namespace App\Src\Controller;
 
 use App\App;
 
+use App\Src\Service\DataBase\DBFactory;
+use App\Src\Service\HTTP\HttpRequest;
+use App\Src\Service\Manager\Manager;
 use Exception;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -15,16 +18,18 @@ class BackController
 {
     protected $app;
     protected $action;
-    protected $params;
     private $twig;
+    protected $manager;
+    protected $request;
 
-    public function __construct(App $app, $action, $params = null)
+    public function __construct(App $app, $action,HttpRequest $request)
     {
         $this->app = $app;
         $this->action = $action;
-        $this->params = $params;
+        $this->request = $request;
         $loader = new FilesystemLoader($this->app->getConfig()->getVar("twig template_path"));
         $this->twig = new Environment($loader);
+        $this->manager = new Manager(DBFactory::PDOMysqlDB($this->app->getConfig()->getVar("database")));
 
     }
 
@@ -53,6 +58,7 @@ class BackController
 
         $this->app->getRenderer()
             ->addGlobal('router',$this->app->getRouter())
+            ->addGlobal('assets','')
             ->render($path,$params);
 
     }

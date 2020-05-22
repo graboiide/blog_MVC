@@ -1,2 +1,152 @@
-<h1> Afficher un blog </h1>
-<strong>Numero du blog {{ slug }}</strong>
+{% extends "Front/base.html.twig" %}
+{% block title %} Blog {% endblock %}
+{% block headerTitle %} Projet 5 Openclassroom {% endblock %}
+{% block content %}
+
+    <section class="blog_area single-post-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 posts-list">
+                    <div class="single-post">
+                        <div class="feature-img">
+                            <img class="img-fluid" src="{{ blog.image }}" alt="">
+                        </div>
+                        <div class="blog_details">
+                            <h2 style="color: #2d2d2d;">{{ blog.title }} </h2>
+                            <ul class="blog-info-link mt-3 mb-4">
+                                <li><a href="#"><i class="fa fa-user"></i> Par greg</a></li>
+
+                            </ul>
+                            <p class="excert">
+                                {{ blog.contain }}
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="navigation-top">
+
+                        <div class="navigation-area">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img class="img-fluid" src="{{ assets }}img/post/preview.png" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="arrow">
+                                        <a href="#">
+                                            <span class="lnr text-white ti-arrow-left"></span>
+                                        </a>
+                                    </div>
+                                    <div class="detials">
+                                        <p>Prev Post</p>
+                                        <a href="#">
+                                            <h4 style="color: #2d2d2d;">titre precedent</h4>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                                    <div class="detials">
+                                        <p>Next Post</p>
+                                        <a href="#">
+                                            <h4 style="color: #2d2d2d;">titre suivant</h4>
+                                        </a>
+                                    </div>
+                                    <div class="arrow">
+                                        <a href="#">
+                                            <span class="lnr text-white ti-arrow-right"></span>
+                                        </a>
+                                    </div>
+                                    <div class="thumb">
+                                        <a href="#">
+                                            <img class="img-fluid" src="{{ assets }}img/post/next.png" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-author">
+                        <div class="media align-items-center">
+                            <img src="{{ assets }}img/blog/author.png" alt="">
+                            <div class="media-body">
+                                <a href="#">
+                                    <h4>Greg</h4>
+                                </a>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Consequuntur eos expedita ipsum iure laborum modi nisi,
+                                    praesentium qui reprehenderit repudiandae, ullam veniam vero! Ad adipisci ex nemo! Aliquam illo, velit!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comments-area" id="comments">
+                        {% set nbComments = comments|length %}
+                        <h4 style="color: #2d2d2d">{{ nbComments }} {{ nbComments > 1 ? 'commentaires' : 'commentaire' }}</h4>
+                        {% for comment in comments %}
+                            <div class="comment-list">
+                                <div class="single-comment justify-content-between d-flex">
+                                    <div class="user justify-content-between d-flex">
+                                        <div class="thumb">
+                                            <img src="{{ assets }}img/comment/comment_1.png" alt="">
+                                        </div>
+                                        <div class="desc">
+                                            <p class="comment">
+                                                {{ comment.message }}
+                                            </p>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <h5>
+                                                        <a href="#" style="color: #f04e3c">{{ comment.name }}</a>
+                                                    </h5>
+                                                    <p class="date">{{ comment.date|date("d-M-Y H:m") }} </p>
+                                                </div>
+                                                <div class="reply-btn">
+                                                    <a href="#" class="btn-reply text-uppercase">repondre</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                    <div class="comment-form">
+                        <h4>Laisser un commentaire</h4>
+                        <form class="form-contact comment_form" action="#" id="commentForm">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                 <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
+                                           placeholder="Ecrivez un commentaire"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control" name="name" id="name" type="text" placeholder="Nom">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control" name="email" id="email" type="email" placeholder="Email">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="button button-contactForm btn_1 boxed-btn">Poster</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        {% include 'Front/Views/categories.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

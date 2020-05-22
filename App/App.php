@@ -5,6 +5,7 @@ namespace App;
 use AltoRouter;
 use App\Src\Controller\backController;
 use App\Src\Service\Config;
+use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\Renderer\TwigRenderer;
 use Exception;
 
@@ -80,8 +81,6 @@ class App
         else
             return 'No route file found';
 
-
-
         //add map at router
         $routes =json_decode($json,true);
         foreach ($routes as $key => $route){
@@ -89,9 +88,13 @@ class App
         }
         if($match = $this->router->match())
         {
+            $request = new HttpRequest();
+            $request->paramsRoute($match['params']);
+
+
             $_GET = array_merge($_GET,$match['params']);
             $controllerClass = '\App\Src\Controller\\'.explode('#',$match['target'])[0].'Controller';
-            return new $controllerClass($this,explode('#',$match['target'])[1],$match['params']);
+            return new $controllerClass($this,explode('#',$match['target'])[1],$request);
 
         }
         else{

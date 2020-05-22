@@ -18,7 +18,7 @@ class Config
             $this->vars = $json = json_decode(file_get_contents("../Config/config.json"),true);
         }
         $pathToValue = explode(' ',$targetVar);
-        if(sizeof($pathToValue) === 2)
+        if(count($pathToValue) === 2)
             return $this->vars[$pathToValue[0]][$pathToValue[1]];
         else
         {

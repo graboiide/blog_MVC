@@ -2,14 +2,14 @@
 
 namespace App\Src\Service\Entity;
 
-use App\Src\Service\Converter\NamingConventionConverter;
+use App\Src\Service\Converter\NamingConverter;
 
 abstract class Entity
 {
 
     protected $id;
 
-    public function __construct($data)
+    public function __construct($data = [])
     {
         $this->hydrate($data);
     }
@@ -22,10 +22,10 @@ abstract class Entity
     public function hydrate($data):void
     {
         //Permet de convertir les nommages entre les attributs de table et propriétés de class
-        $conventionConverter = new NamingConventionConverter();
+
         foreach ($data as $key => $value)
         {
-            $method = $conventionConverter->snakeCaseToCamelCase($key);
+            $method = NamingConverter::toCamelCase($key);
             if(method_exists($this,'get'.$method))
             {
                 $method = 'set'.$method;
@@ -47,16 +47,38 @@ abstract class Entity
     {
         $this->id = $id;
     }
+
+
+    public function extractAttributes($onlyKey = true,$filter = true)
+    {
+        $attributes = [];
+        $propertiesEntity = $filter ? array_filter(get_object_vars($this)) : get_object_vars($this);
+        foreach ($propertiesEntity as $key => $value )
+            $attributes[NamingConverter::toSnakeCase($key)] = $value;
+
+            return $onlyKey ? array_keys($attributes) : $attributes;
+
+    }
+
+    /**
+     * Récupere le nom de la table dans la base de donnée a partir du nom de la class
+     * @return string
+     */
+    public function extractTable()
+    {
+        $className = explode('\\',get_called_class());
+        $className = substr(array_pop($className), 0, -6);
+        return NamingConverter::toSnakeCase($className);
+    }
     public function getProperties()
     {
        return get_object_vars($this);
     }
+
     public function getClass()
     {
-        $ncc = new NamingConventionConverter();
         $className = explode('\\',get_called_class());
-        $className = $ncc->pascalCaseToSnakeCase(array_pop($className));
-        return $className = substr($className, 0, -7);
+        return $className = substr(array_pop($className), 0, -6);
     }
 
 
