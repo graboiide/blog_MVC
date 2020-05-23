@@ -1,5 +1,5 @@
 {
-  "/": {
+  "/blog/[i:page]?": {
     "module": "home",
     "controller": "home",
     "name": "home"

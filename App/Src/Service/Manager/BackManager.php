@@ -68,7 +68,7 @@ class BackManager extends Manager
 
             $request->execute();
         }catch (Exception $e){
-            echo $e->getMessage();
+            print_r($e->getMessage()) ;
         }
         return $this->db->lastInsertId();
 

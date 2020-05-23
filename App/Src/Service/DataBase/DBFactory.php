@@ -28,10 +28,9 @@ class DBFactory
                print_r($e->getMessage());
            }
        }
-       else {
-           return self::$instancePDO;
-       }
-        return null;
+
+       return self::$instancePDO;
+
 
    }
 

@@ -17,8 +17,6 @@ class App
     private $renderer;
     private $router;
 
-
-
     public function __construct()
     {
         $this->router = new AltoRouter();
@@ -90,17 +88,15 @@ class App
         {
             $request = new HttpRequest();
             $request->paramsRoute($match['params']);
-
-
-            $_GET = array_merge($_GET,$match['params']);
             $controllerClass = '\App\Src\Controller\\'.explode('#',$match['target'])[0].'Controller';
             return new $controllerClass($this,explode('#',$match['target'])[1],$request);
 
         }
-        else{
-            $this->renderer->render('Errors/404.html.twig');
-        }
+
+        $this->renderer->render('Errors/404.html.twig');
         return null;
+
+
     }
 
 }

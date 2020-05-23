@@ -39,14 +39,61 @@ class BlogPostManager extends BackManager
 
         return null;
     }
+
+    /**
+     * @param $id
+     * @return BlogPostEntity
+     */
     public function findById($id)
     {
-        $sql = 'SELECT '.NamingConverter::toSnakeCase(implode(', ',$this->propertiesEntity)).' FROM blog_post WHERE id = :id';
+        $sql = 'SELECT '.implode(', ',$this->attributes).' FROM blog_post WHERE id = :id';
         $request = $this->db->prepare($sql);
         $request->bindValue(':id', $id,PDO::PARAM_INT);
         $request->execute();
         $data = $request->fetch();
         $blog = new BlogPostEntity($data);
         return $blog;
+    }
+
+    /**
+     * Retourne le blog avant pendant et aprés
+     * @param $id
+     * @return array
+     */
+    public function findBlogsForNav($id):array
+    {
+        $sql = 'SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id < :id ORDER BY A.id DESC LIMIT 1) C 
+        UNION SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id = :id ORDER BY A.id LIMIT 1) C
+        UNION SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id > :id ORDER BY A.id LIMIT 1) C
+        ';
+        $request = $this->db->prepare($sql);
+        $request->bindValue(':id',$id,PDO::PARAM_INT);
+        $request->execute();
+        $listBlogs = [];
+        $key = 'prev';
+        foreach ($request->fetchAll() as $data){
+            if($data['id'] == $id)
+                $key = 'target';
+            if($data['id'] > $id)
+                $key = 'next';
+            $listBlogs[$key] = new BlogPostEntity($data);
+        }
+
+        return $listBlogs;
+
+    }
+    public function count()
+    {
+        try {
+            $sql = 'SELECT COUNT(*) as nb FROM blog_post';
+            $request = $this->db->query($sql);
+            $request->execute();
+            return $request->fetch()['nb'];
+
+        }catch (Exception $e){
+            print_r($e->getMessage().'<br>');
+        }
+
+        return null;
     }
 }

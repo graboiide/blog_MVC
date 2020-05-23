@@ -18,7 +18,7 @@ class BackController
 {
     protected $app;
     protected $action;
-    private $twig;
+    protected $twig;
     protected $manager;
     protected $request;
 
@@ -58,7 +58,7 @@ class BackController
 
         $this->app->getRenderer()
             ->addGlobal('router',$this->app->getRouter())
-            ->addGlobal('assets','')
+            ->addGlobal('assets','/')
             ->render($path,$params);
 
     }

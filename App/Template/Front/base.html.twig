@@ -42,18 +42,11 @@
                             <div class="main-menu f-right d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a href="../../../../myphotography/myphotography/index.html">Home</a></li>
-                                        <li><a href="../../../../myphotography/myphotography/about.html">About</a></li>
-                                        <li><a href="../../../../myphotography/myphotography/gallery.html">Gallery</a></li>
-                                        <li><a href="../../../../myphotography/myphotography/services.html">Services</a></li>
-                                        <li><a href="blog.html">Blog</a>
-                                            <ul class="submenu">
-                                                <li><a href="blog.html">Blog</a></li>
-                                                <li><a href="../../../../myphotography/myphotography/blog_details.html">Blog Details</a></li>
-                                                <li><a href="../../../../myphotography/myphotography/elements.html">Element</a></li>
-                                            </ul>
+                                        <li><a href="../../../../myphotography/myphotography/index.html">Acceuil</a></li>
+                                        <li><a href="{{ router.generate('home') }}">Blog</a>
+
                                         </li>
-                                        <li><a href="../../../../myphotography/myphotography/contact.html">Contact</a></li>
+
                                     </ul>
                                 </nav>
                             </div>
@@ -88,9 +81,22 @@
         </div>
     </div>
     <!-- Hero End -->
+    <section class="blog_area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mb-5 mb-lg-0">
     <!--================Blog Area =================-->
-   {% block content %}{% endblock %}
+                        {% block blog %}{% endblock %}
     <!--================Blog Area =================-->
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        {% include 'Front/Views/categories.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 <footer>
     <!--? Footer Start-->
