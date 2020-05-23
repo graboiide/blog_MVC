@@ -20,10 +20,9 @@ class Config
         $pathToValue = explode(' ',$targetVar);
         if(count($pathToValue) === 2)
             return $this->vars[$pathToValue[0]][$pathToValue[1]];
-        else
-        {
-            return $this->vars[$targetVar];
-        }
+
+        return $this->vars[$targetVar];
+
 
     }
 }

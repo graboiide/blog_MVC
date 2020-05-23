@@ -16,7 +16,7 @@ class CommentManager extends BackManager
         try {
             $select = implode(', ',$this->attributes);
 
-            $sql = 'SELECT '.$select.' FROM comment WHERE is_validate = 1 AND post_blog_id = :post_blog_id ';
+            $sql = 'SELECT '.$select.' FROM comment WHERE is_validate = 1 AND post_blog_id = :post_blog_id ORDER BY date';
             $request = $this->db->prepare($sql);
 
             $request->bindValue(':post_blog_id', (int)$blogId);
