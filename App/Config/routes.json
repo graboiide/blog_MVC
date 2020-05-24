@@ -23,8 +23,7 @@
   "/show-[i:id]": {
     "module": "show",
     "controller": "home",
-    "name": "show",
-    "method": "GET"
+    "name": "show"
   },
   "/admin/postblogs": {
     "module": "postblogs",

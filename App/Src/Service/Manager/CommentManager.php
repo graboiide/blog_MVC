@@ -16,7 +16,7 @@ class CommentManager extends BackManager
         try {
             $select = implode(', ',$this->attributes);
 
-            $sql = 'SELECT '.$select.' FROM comment WHERE is_validate = 1 AND post_blog_id = :post_blog_id ORDER BY date';
+            $sql = 'SELECT '.$select.' FROM comment WHERE is_validate = 1 AND post_blog_id = :post_blog_id ORDER BY id DESC';
             $request = $this->db->prepare($sql);
 
             $request->bindValue(':post_blog_id', (int)$blogId);
@@ -27,7 +27,7 @@ class CommentManager extends BackManager
             }
             return $listComments;
         }catch (Exception $e){
-            print_r($e);
+            var_dump($e);
         }
         return null;
 
@@ -44,7 +44,7 @@ class CommentManager extends BackManager
             return $request->fetch()['nb'];
 
         }catch (Exception $e){
-            print_r($e->getMessage().'<br>');
+            var_dump($e->getMessage().'<br>');
         }
 
         return null;

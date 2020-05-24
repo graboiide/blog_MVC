@@ -36,14 +36,18 @@ class BackManager extends Manager
 
         $sql = 'INSERT INTO'.' '.$entity->extractTable().' ('.$select.') VALUES ( :'.$tokens.')';
 
+        try {
+            $request = $this->db->prepare($sql);
 
-        $request = $this->db->prepare($sql);
+            foreach ($entity->extractAttributes(false) as $key => $value)
+                $request->bindValue(':'.$key,$value);
 
-        foreach ($entity->extractAttributes(false) as $key => $value)
-            $request->bindValue(':'.$key,$value);
+            $request->execute();
+            return $this->db->lastInsertId();
+        }catch (Exception $e){
+            echo $e->getMessage();
+        }
 
-        $request->execute();
-        return $this->db->lastInsertId();
     }
 
     /**
@@ -68,7 +72,7 @@ class BackManager extends Manager
 
             $request->execute();
         }catch (Exception $e){
-            print_r($e->getMessage()) ;
+            var_dump($e->getMessage()) ;
         }
         return $this->db->lastInsertId();
 

@@ -82,7 +82,7 @@ class App
         //add map at router
         $routes =json_decode($json,true);
         foreach ($routes as $key => $route){
-            $this->router->map(isset($route['method']) ? $route['method'] : 'GET',$key,$route['controller'].'#'.$route['module'],$route['name']);
+            $this->router->map(isset($route['method']) ? $route['method'] : 'GET|POST',$key,$route['controller'].'#'.$route['module'],$route['name']);
         }
         if($match = $this->router->match())
         {
