@@ -15,7 +15,7 @@ abstract class Field implements FieldInterface
     protected $validators;
     protected $placeholder;
     protected $required = false;
-    protected $errors ;
+    protected $errors;
 
     public function __construct($data)
     {
@@ -23,6 +23,9 @@ abstract class Field implements FieldInterface
     }
     use Hydrator;
 
+    public function getErrors(){
+        return $this->errors;
+    }
     /**
      * @return mixed
      */

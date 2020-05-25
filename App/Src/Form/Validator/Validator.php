@@ -15,6 +15,8 @@ abstract class Validator
      * @var Field $fieldChild
      */
     protected $fieldChild;
+    protected $customErrors;
+
     public function __construct($data)
     {
         $this->hydrate($data);
@@ -34,6 +36,14 @@ abstract class Validator
     public function setFieldChild($fieldChild): void
     {
         $this->fieldChild = $fieldChild;
+    }
+
+    /**
+     * @param mixed $customErrors
+     */
+    public function setCustomErrors($customErrors): void
+    {
+        $this->customErrors = $customErrors;
     }
     abstract public function isValid();
 

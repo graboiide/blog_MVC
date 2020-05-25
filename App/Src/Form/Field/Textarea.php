@@ -13,10 +13,7 @@ class Textarea extends Field
     protected $type = 'text';
     public function getWidget()
     {
-        return '
-        <div class="form-group">
-            <textarea 
-              
+        return '<textarea 
                 name="'.$this->name.'"
                 class="form-control " 
                 type="text" id="id" 
@@ -26,8 +23,7 @@ class Textarea extends Field
                 '.$this->rows.'
                 id="'.$this->id.'"
                 '.$this->required.'
-                '.$this->placeholder.'>'.$this->value.'</textarea>
-        </div>';
+                '.$this->placeholder.'>'.$this->value.'</textarea>';
     }
 
 

@@ -4,19 +4,14 @@ namespace App\Src\Controller;
 
 use App\App;
 use App\Src\Form\CommentForm;
-use App\Src\Form\Field\Input;
-use App\Src\Form\Field\Textarea;
 use App\Src\Form\Form;
-use App\Src\Form\FormBuilder;
-use App\Src\Form\Validator\EqualTo;
-use App\Src\Form\Validator\Length;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
 use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\HTTP\HttpResponse;
 use App\Src\Service\Manager\BlogPostManager;
 use App\Src\Service\Manager\CommentManager;
-use Faker\Provider\DateTime;
+use DateTime;
 
 class HomeController extends backController
 {
@@ -65,7 +60,7 @@ class HomeController extends backController
         $commentManager = $this->manager->getEntityManager(CommentEntity::class);
         $comments = $commentManager->listPublished($blogs['target']->getId());
 
-        $dateNow= new \DateTime('now');
+        $dateNow= new DateTime('now');
         if($this->request->method() === 'POST')
             $comment = new CommentEntity(array_merge($this->request->post(),[
                 "postBlogId"=>(int)$this->request->get('id'),
@@ -80,6 +75,7 @@ class HomeController extends backController
          * @var Form $form
          */
         $form = $formBuilder->createForm($this->request);
+
         if($form->isSubmitted() && $form->isValid()){
             $commentManager->save($comment);
             $response = new HttpResponse();

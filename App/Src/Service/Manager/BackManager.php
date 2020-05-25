@@ -45,14 +45,16 @@ class BackManager extends Manager
             $request->execute();
             return $this->db->lastInsertId();
         }catch (Exception $e){
-            echo $e->getMessage();
+            print_r($e->getMessage());
         }
+        return null;
 
     }
 
     /**
      * Modifie un entité en bdd
      * @param Entity $entity
+     * @return string
      */
     protected function update(Entity $entity)
     {
@@ -75,6 +77,27 @@ class BackManager extends Manager
             var_dump($e->getMessage()) ;
         }
         return $this->db->lastInsertId();
+
+    }
+
+    /**
+     * Verifie qu'une valeur existe dans une colonne
+     * @param Entity $entity
+     * @param $col
+     * @param $value
+     * @return bool
+     */
+    public function isEmpty(Entity $entity,$col,$value)
+    {
+
+        if(in_array($col,$entity->extractAttributes(true,false))){
+            $sql = 'SELECT COUNT(*) AS nb FROM '.$entity->extractTable().' WHERE '.$col.'= :value';
+            $request = $this->db->prepare($sql);
+            $request->bindValue(':value',$value);
+            $request->execute();
+            return $request->fetch()['nb'] == 0;
+        }
+        return false;
 
     }
 

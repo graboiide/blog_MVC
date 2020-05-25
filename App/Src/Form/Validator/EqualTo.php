@@ -30,6 +30,9 @@ class EqualTo extends Validator
     {
         $this->targetField = $targetField;
     }
+    /*
+     * Verifie l'galité de la valeur de deux champs (exemple: mot de passe)
+     */
     private function equal(Field $field,Field $fieldTarget)
     {
         if($field->getValue() !== $fieldTarget->getValue()){

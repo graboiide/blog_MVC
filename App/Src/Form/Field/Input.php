@@ -11,7 +11,6 @@ class Input extends Field
     public function getWidget()
     {
         return '
-            <div class="form-group">
                 <input 
                 name="'.$this->name.'"
                 class="form-control" 
@@ -22,7 +21,7 @@ class Input extends Field
                 id="'.$this->id.'"
                 '.$this->required.'
                 '.$this->placeholder.'>
-            </div>';
+            ';
     }
 
     /**
