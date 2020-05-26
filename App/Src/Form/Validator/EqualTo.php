@@ -16,13 +16,6 @@ class EqualTo extends Validator
 {
     private $targetField;
 
-    public function __construct($data)
-    {
-        parent::__construct($data);
-
-    }
-
-
     /**
      * @param mixed $targetField
      */
@@ -36,8 +29,8 @@ class EqualTo extends Validator
     private function equal(Field $field,Field $fieldTarget)
     {
         if($field->getValue() !== $fieldTarget->getValue()){
-            $this->errorMessage["error_message"] = "Le champ ".$field->getName()." Doit correspondre avec le champ ".$fieldTarget->getName();
-            $this->errorMessage["target"] = $fieldTarget->getName();
+            $this->listErrors["error_message"] = "Le champ ".$field->getName()." Doit correspondre avec le champ ".$fieldTarget->getName();
+            $this->listErrors["target"] = $fieldTarget->getName();
             return false;
         }
         return true;

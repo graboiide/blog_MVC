@@ -8,33 +8,35 @@ class Length extends Validator
 {
     private $minLength;
     private $maxLength;
+    private $defaultErrors;
 
     public function isValid()
     {
+        $this->mergeErrors();
+
         /*
          * Verifie la longueur de la chaine
          */
-
         $length = strlen($this->fieldChild->getValue());
         if( $length < $this->minLength){
-            if(is_null($this->customErrors))
-                $this->errorMessage['min'] = 'Le champ '.$this->fieldChild->getName().' doit faire plus de '.$this->minLength.' caracteres';
-            else
-                $this->errorMessage['min'] = $this->customErrors['min'];
-
+                $this->listErrors['min'] = $this->defaultErrors['min'];
             return false;
         }
 
         if( $length > $this->maxLength){
-            if(is_null($this->customErrors))
-                $this->errorMessage['max'] = 'Le champ '.$this->fieldChild->getName().' doit faire moins de '.$this->maxLength.' caracteres';
-            else
-                $this->errorMessage['max'] = $this->customErrors['max'];
+            $this->listErrors['max'] = $this->defaultErrors['max'];
             return false;
         }
 
         return  true;
     }
+    private function mergeErrors()
+    {
+        $this->defaultErrors['min'] = 'Le champ '.$this->fieldChild->getName().' doit faire plus de '.$this->minLength.' caracteres';
+        $this->defaultErrors['max'] = 'Le champ '.$this->fieldChild->getName().' doit faire moins de '.$this->maxLength.' caracteres';
+        $this->defaultErrors = array_merge($this->customErrors,$this->defaultErrors);
+    }
+
 
     /**
      * @param mixed $minLength

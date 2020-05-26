@@ -10,7 +10,7 @@ use App\Src\Service\Hydrator;
 
 abstract class Validator
 {
-    protected $errorMessage;
+    protected $listErrors;
     /**
      * @var Field $fieldChild
      */
@@ -27,7 +27,7 @@ abstract class Validator
      */
     public function getErrorMessage()
     {
-        return $this->errorMessage;
+        return $this->listErrors;
     }
 
     /**

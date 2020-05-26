@@ -12,6 +12,7 @@ use App\Src\Service\Manager\Manager;
 class InDataBase extends Validator
 {
     private $entityClassName;
+    private $attribute;
 
     /**
      * @param mixed $entityClassName
@@ -19,6 +20,11 @@ class InDataBase extends Validator
     public function setEntityClassName($entityClassName): void
     {
         $this->entityClassName = $entityClassName;
+    }
+
+    private function setAttribute($attr)
+    {
+        $this->attribute = $attr;
     }
     /*
      * Va verifier que la valeur du champ n'existe deja pas en base de donnée
@@ -33,14 +39,14 @@ class InDataBase extends Validator
         /**
          * @var BackManager $managerEntity
          */
-
-        $empty = $managerEntity->isEmpty(new $this->entityClassName(),$this->fieldChild->getName(),$this->fieldChild->getValue());
+        $attribute = !is_null($this->attribute) ? $this->attribute : $this->fieldChild->getName();
+        $empty = $managerEntity->isEmpty(new $this->entityClassName(),$attribute,$this->fieldChild->getValue());
 
         if(!$empty){
             if(is_null($this->customErrors))
-                $this->errorMessage['empty'] = "La valeur ". $this->fieldChild->getValue()." est déja prise veuillez en choisir une autre";
+                $this->listErrors['empty'] = "La valeur ". $this->fieldChild->getValue()." est déja prise veuillez en choisir une autre";
             else
-                $this->errorMessage['empty'] = $this->customErrors;
+                $this->listErrors['empty'] = $this->customErrors;
             return false;
         }
         return true;
