@@ -1,0 +1,31 @@
+{% extends "Front/base.html.twig" %}
+{% block title %} Blog {% endblock %}
+{% block headerTitle %} Projet 5 Openclassroom {% endblock %}
+{% block blog %}
+
+
+    <div class="blog_left_sidebar">
+        {% for blog in blogs %}
+            <article class="blog_item">
+                <div class="blog_item_img">
+                    <img class="card-img rounded-0" src="{{ blog.image }}" alt="">
+                    <a href="#" class="blog_item_date">
+                        <h3>{{ blog.date|date("d") }}</h3>
+                        <p>{{ blog.date|date("M") }}</p>
+                    </a>
+                </div>
+                <div class="blog_details">
+                    <a class="d-inline-block" href="{{ router.generate('show',{"id":blog.id}) }}">
+                        <h2 class="blog-head" style="color: #2d2d2d;">{{ blog.title }}</h2>
+                    </a>
+                    <p>{{ blog.chapo }}{{ cate }}</p>
+                    <ul class="blog-info-link">
+                        <li><a href="#"><i class="fa fa-user"></i> Par Greg</a></li>
+                        <li><a href="{{ router.generate('show',{"id":blog.id}) }}#comments"><i class="fa fa-comments"></i> {{ blog.nbComment }} {{ blog.nbComment > 1 ? 'commentaires' : 'commentaire' }}</a></li>
+                    </ul>
+                </div>
+            </article>
+        {% endfor %}
+        {% include 'Front/Views/pagination.html.twig' with {'nbPage': nbPage,'page': page} %}
+    </div>
+{% endblock %}

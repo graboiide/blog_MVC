@@ -34,7 +34,7 @@ class BlogPostManager extends BackManager
             }
             return $listBlogs;
         }catch (Exception $e){
-            print_r($e->getMessage());
+            var_dump($e->getMessage());
         }
 
         return null;
@@ -91,7 +91,7 @@ class BlogPostManager extends BackManager
             return $request->fetch()['nb'];
 
         }catch (Exception $e){
-            print_r($e->getMessage().'<br>');
+            var_dump($e->getMessage().'<br>');
         }
 
         return null;

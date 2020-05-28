@@ -13,15 +13,16 @@ use Exception;
 class App
 {
 
-    private $config;
+
     private $renderer;
     private $router;
 
     public function __construct()
     {
         $this->router = new AltoRouter();
-        $this->config = new Config();
-        $this->renderer = new TwigRenderer($this->config->getVar('twig template_path'));
+
+
+        $this->renderer = new TwigRenderer(Config::getVar('twig template_path'));
 
 
     }
@@ -34,13 +35,6 @@ class App
         return $this->router;
     }
 
-    /**
-     * @return Config
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
 
     /**
      * @return TwigRenderer
@@ -72,7 +66,7 @@ class App
      */
     public function getController()
     {
-        $pathFileRoutes = $this->config->getVar("router route_path");
+        $pathFileRoutes = Config::getVar("router route_path");
         if(is_file($pathFileRoutes))
 
             $json = file_get_contents($pathFileRoutes);
@@ -82,7 +76,7 @@ class App
         //add map at router
         $routes =json_decode($json,true);
         foreach ($routes as $key => $route){
-            $this->router->map(isset($route['method']) ? $route['method'] : 'GET',$key,$route['controller'].'#'.$route['module'],$route['name']);
+            $this->router->map(isset($route['method']) ? $route['method'] : 'GET|POST',$key,$route['controller'].'#'.$route['module'],$route['name']);
         }
         if($match = $this->router->match())
         {

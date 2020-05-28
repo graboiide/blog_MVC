@@ -11,6 +11,10 @@ class HttpResponse
     {
         header($header);
     }
+    public function redirect($url)
+    {
+        header('Location:'.$url.'');
+    }
 
 
 }

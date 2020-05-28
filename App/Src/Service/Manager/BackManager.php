@@ -36,19 +36,25 @@ class BackManager extends Manager
 
         $sql = 'INSERT INTO'.' '.$entity->extractTable().' ('.$select.') VALUES ( :'.$tokens.')';
 
+        try {
+            $request = $this->db->prepare($sql);
 
-        $request = $this->db->prepare($sql);
+            foreach ($entity->extractAttributes(false) as $key => $value)
+                $request->bindValue(':'.$key,$value);
 
-        foreach ($entity->extractAttributes(false) as $key => $value)
-            $request->bindValue(':'.$key,$value);
+            $request->execute();
+            return $this->db->lastInsertId();
+        }catch (Exception $e){
+            print_r($e->getMessage());
+        }
+        return null;
 
-        $request->execute();
-        return $this->db->lastInsertId();
     }
 
     /**
      * Modifie un entité en bdd
      * @param Entity $entity
+     * @return string
      */
     protected function update(Entity $entity)
     {
@@ -68,9 +74,30 @@ class BackManager extends Manager
 
             $request->execute();
         }catch (Exception $e){
-            print_r($e->getMessage()) ;
+            var_dump($e->getMessage()) ;
         }
         return $this->db->lastInsertId();
+
+    }
+
+    /**
+     * Verifie qu'une valeur existe dans une colonne
+     * @param Entity $entity
+     * @param $col
+     * @param $value
+     * @return bool
+     */
+    public function isEmpty(Entity $entity,$col,$value)
+    {
+
+        if(in_array($col,$entity->extractAttributes(true,false))){
+            $sql = 'SELECT COUNT(*) AS nb FROM '.$entity->extractTable().' WHERE '.$col.'= :value';
+            $request = $this->db->prepare($sql);
+            $request->bindValue(':value',$value);
+            $request->execute();
+            return $request->fetch()['nb'] == 0;
+        }
+        return false;
 
     }
 
