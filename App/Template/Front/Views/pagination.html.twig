@@ -1,0 +1,23 @@
+<nav class="blog-pagination justify-content-center d-flex">
+    <ul class="pagination">
+        {% if page > 1 %}
+        <li class="page-item">
+            <a href="{{ router.generate('home',{"page":page -1}) }}" class="page-link" aria-label="Previous">
+                <i class="ti-angle-left"></i>
+            </a>
+        </li>
+        {% endif %}
+    {% for i in 1..nbPage %}
+        <li class="page-item{{ i == page ? ' active' : '' }}">
+            <a href="{{ router.generate('home',{"page":i}) }}" class="page-link">{{ i }}</a>
+        </li>
+    {% endfor %}
+        {% if page < nbPage %}
+        <li class="page-item">
+            <a href="{{ router.generate('home',{"page":page +1}) }}" class="page-link" aria-label="Next">
+                <i class="ti-angle-right"></i>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

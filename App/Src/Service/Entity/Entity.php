@@ -3,6 +3,7 @@
 namespace App\Src\Service\Entity;
 
 use App\Src\Service\Converter\NamingConverter;
+use App\Src\Service\Hydrator;
 
 abstract class Entity
 {
@@ -19,20 +20,7 @@ abstract class Entity
      * @param $data
      * @return void
      */
-    public function hydrate($data):void
-    {
-        //Permet de convertir les nommages entre les attributs de table et propriétés de class
-
-        foreach ($data as $key => $value)
-        {
-            $method = NamingConverter::toCamelCase($key);
-            if(method_exists($this,'get'.$method))
-            {
-                $method = 'set'.$method;
-                $this->$method($value);
-            }
-        }
-    }
+    use Hydrator;
 
     public function getId()
     {

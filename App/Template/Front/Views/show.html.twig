@@ -3,6 +3,7 @@
 {% block headerTitle %} {{ blogs.target.title }} {% endblock %}
 {% block blog %}
 
+
     <div class="single-post-area">
         <div class="single-post ">
             <div class="feature-img">
@@ -114,20 +115,16 @@
         </div>
         <div class="comment-form">
             <h4>Laisser un commentaire</h4>
-            <form class="form-contact comment_form" action="#" id="commentForm">
+            <form class="form-contact comment_form" method="post"  id="commentForm" action="#comments">
                 <div class="row">
                     <div class="col-12">
-                        <div class="form-group">
-                            <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Ecrivez un commentaire"></textarea>
-                        </div>
+                        {{ form.widget('message')|raw }}
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input class="form-control" name="name" id="name" type="text" placeholder="Nom">
+                            {{ form.widget('name')|raw }}
                         </div>
                     </div>
-
-
                 </div>
                 <div class="form-group">
                     <button type="submit" class="button button-contactForm btn_1 boxed-btn">Poster</button>

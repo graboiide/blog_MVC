@@ -1,0 +1,14 @@
+<aside class="single_sidebar_widget post_category_widget">
+    <!-- Caztegories -->
+    <h4 class="widget_title" style="color: #2d2d2d;">Catégories</h4>
+    <ul class="list cat-list">
+        {% for categorie in _categories %}
+        <li>
+            <a href="#" class="d-flex">
+                <p>{{ categorie.title }}</p>
+                <p>({{ categorie.nb }})</p>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</aside>

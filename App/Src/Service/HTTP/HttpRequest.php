@@ -38,7 +38,9 @@ class  HttpRequest
     }
     public function method()
     {
+
         $server = filter_input_array(INPUT_SERVER);
+
         return $server['REQUEST_METHOD'];
     }
     public function uri()
@@ -46,10 +48,13 @@ class  HttpRequest
         $server = filter_input_array(INPUT_SERVER);
         return $server['REQUEST_URI'];
     }
-    public function post($key)
+    public function post($key=null)
     {
+        if($key === null)
+            return $this->post;
         return isset($this->post[$key]) ? $this->post[$key] : null;
     }
+
 
 
 

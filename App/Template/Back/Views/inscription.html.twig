@@ -1,0 +1,26 @@
+{% extends "Back/connect_base.html.twig" %}
+{% block title %} Inscription {% endblock %}
+{% block connect %}
+    <section class="container">
+
+        <div class="row mt-5">
+            <div class="col-md-3 col-sm-1"></div>
+            <div class="col-md-6 col-sm-11 mt-5">
+                <h1 class="text-center" style="color: #f04e3c">S'inscrire</h1>
+                <form class="form-contact comment_form" method="post"  id="commentForm" action="">
+                    {{ form.widget('name')|raw }}
+                    {{ form.widget('password')|raw }}
+                    {{ form.widget('rePassword')|raw }}
+                    {{ form.widget('email')|raw }}
+                    <div class="form-group">
+                        <button type="submit" class="button button-contactForm btn_1 boxed-btn">Inscription</button>
+                    </div>
+                </form>
+                <div class=" alert alert-primary">Votre inscription devra être valider par un administrateur</div>
+            </div>
+        </div>
+
+
+
+    </section>
+{% endblock %}

@@ -16,5 +16,8 @@
     "dbname": "p5_blog",
     "user": "root",
     "password": ""
+  },
+  "form": {
+    "template": "bootstrap"
   }
 }
