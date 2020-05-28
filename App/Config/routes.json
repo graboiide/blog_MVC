@@ -37,11 +37,15 @@
     "name": "admin_comments",
     "method": "GET"
   },
-  "/admin/comment": {
-    "module": "comment",
+  "/admin/connect": {
+    "module": "connectUser",
     "controller": "admin",
-    "name": "admin_comment",
-    "method": "GET"
+    "name": "admin_connect"
+  },
+  "/admin/inscription": {
+    "module": "inscription",
+    "controller": "admin",
+    "name": "admin_inscription"
   },
   "/admin/profile": {
     "module": "profile",

@@ -8,7 +8,7 @@ use App\Src\Form\Field\Input;
 use App\Src\Form\Field\Textarea;
 use App\Src\Form\Validator\InDataBase;
 use App\Src\Form\Validator\Length;
-use App\Src\Service\Entity\CommentEntity;
+use App\Src\Service\Entity\UserEntity;
 
 class CommentForm extends FormBuilder
 {
@@ -21,15 +21,15 @@ class CommentForm extends FormBuilder
                 "placeholder"=>"votre nom"
             ])
             ->addValidator(Length::class,[
-                "minLength"=>2,
-                "maxLength"=>30,
+                "min"=>2,
+                "max"=>30,
                 "customErrors"=>[
                     "min"=>"Qui a un nom avec 1 seul caractere ?",
                     "max"=>"Ca doit etre compliquer à la prefecture avec un nom si long"
                 ]
             ])
             ->addValidator(InDataBase::class,[
-                "entityClassName"=>CommentEntity::class,
+                "entityClassName"=>UserEntity::class,
                 "customErrors"=>"Ce pseudonyme est déja utilisé par un membre de l'équipe veuillez en choisir un autre."
             ])
             ->addField(Textarea::class,[
@@ -39,8 +39,8 @@ class CommentForm extends FormBuilder
                 "rows"=>7
             ])
             ->addValidator(Length::class,[
-                "minLength"=>15,
-                "maxLength"=>300,
+                "min"=>15,
+                "max"=>300,
                 "customErrors"=>[
                     "min"=>"Il faut 15 caracteres minimum",
                     "max"=>"Il faut 300 caracteres maximum"

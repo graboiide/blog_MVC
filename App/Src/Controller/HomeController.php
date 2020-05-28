@@ -54,6 +54,7 @@ class HomeController extends backController
         $blogManager = $this->manager->getEntityManager(BlogPostEntity::class);
         $blogs = $blogManager->findBlogsForNav($this->request->get('id'));
 
+
         /**
          * @var CommentManager $commentManager
          */
@@ -71,6 +72,7 @@ class HomeController extends backController
 
         $formBuilder = new CommentForm($comment);
         $formBuilder->buildForm();
+
         /**
          * @var Form $form
          */

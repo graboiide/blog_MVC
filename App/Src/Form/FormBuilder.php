@@ -37,10 +37,6 @@ class FormBuilder
 
     public function addField($classNameField,$data)
     {
-        $data2 = $this->entity->extractAttributes(false,false);
-        //auto complete
-        /*if(array_key_exists($data["name"],$data2) && $data2[$data["name"]] != '')
-            $data["value"] = $data2[$data["name"]];*/
 
         $this->fields[$data["name"]] = $this->classNameGenerate($classNameField,$data);
 
@@ -76,7 +72,9 @@ class FormBuilder
     }
     public function createForm(HttpRequest $request)
     {
-        $attributesEntity = $this->entity->extractAttributes(false,false);
+        //dd($request->post());
+        $attributesEntity =array_merge($this->entity->getProperties(),(array)$request->post());
+
         /**
          * @var Field $field
          */

@@ -16,6 +16,7 @@ abstract class Validator
      */
     protected $fieldChild;
     protected $customErrors;
+    protected $defaultErrors;
 
     public function __construct($data)
     {
@@ -44,6 +45,10 @@ abstract class Validator
     public function setCustomErrors($customErrors): void
     {
         $this->customErrors = $customErrors;
+    }
+    protected function mergeErrors()
+    {
+        $this->defaultErrors = array_merge($this->defaultErrors,(array)$this->customErrors);
     }
     abstract public function isValid();
 

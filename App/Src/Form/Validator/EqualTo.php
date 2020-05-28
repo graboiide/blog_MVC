@@ -28,9 +28,12 @@ class EqualTo extends Validator
      */
     private function equal(Field $field,Field $fieldTarget)
     {
+        $this->defaultErrors['error_message'] = "Le champ ".$field->getName()." doit correspondre avec le champ ".$fieldTarget->getName();
+        $this->mergeErrors();
+
         if($field->getValue() !== $fieldTarget->getValue()){
-            $this->listErrors["error_message"] = "Le champ ".$field->getName()." Doit correspondre avec le champ ".$fieldTarget->getName();
-            $this->listErrors["target"] = $fieldTarget->getName();
+            $this->listErrors["error_message"] = $this->defaultErrors['error_message'];
+            //$this->listErrors["target"] = $fieldTarget->getName();
             return false;
         }
         return true;
