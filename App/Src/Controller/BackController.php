@@ -7,32 +7,54 @@ namespace App\Src\Controller;
 use App\App;
 
 use App\Src\Service\Config;
+use App\Src\Service\Connect\HandlerUser;
 use App\Src\Service\DataBase\DBFactory;
+
 use App\Src\Service\HTTP\HttpRequest;
+use App\Src\Service\HTTP\HttpResponse;
+use App\Src\Service\HTTP\Session;
 use App\Src\Service\Manager\Manager;
 use Exception;
+
 
 class BackController
 {
     protected $app;
     protected $action;
-
     protected $manager;
     protected $request;
+    protected $response;
+    protected $userHandler;
 
     public function __construct(App $app, $action,HttpRequest $request)
     {
         $this->app = $app;
         $this->action = $action;
         $this->request = $request;
-
+        $this->response = new HttpResponse();
         $this->manager = new Manager(DBFactory::PDOMysqlDB(Config::getVar('database')));
-
+        $this->userHandler = new HandlerUser($this->request,$this->manager);
     }
 
 
     public function execute()
     {
+        //on récupere le nom de la class controller
+        $class =explode('\\',get_class($this)) ;
+        $class= end($class);
+        //on recupere la liste des controllers protégé
+        $protected = Config::getVar('connect protected_controllers');
+        //partie protégé
+        if(array_key_exists($class,$protected) ){
+            //on verifie qu'il est connecté ou que la variable session a le bon role
+            if(!$this->userHandler->isConnected() || Session::get('connect') != $protected[$class]){
+                $response = new HttpResponse();
+                $response->redirect('admin/connect');
+            }
+
+
+        }
+
         $method = $this->action;
         try {
             if(!is_callable([$this,$method]))

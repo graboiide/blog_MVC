@@ -19,5 +19,11 @@
   },
   "form": {
     "template": "bootstrap"
+  },
+  "connect": {
+    "protected_controllers": {
+      "AdminController": "admin"
+    },
+    "page_connect": "admin/connect"
   }
 }

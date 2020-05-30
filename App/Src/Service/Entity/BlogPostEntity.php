@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Src\Service\Entity;
-
 
 class BlogPostEntity extends Entity
 {

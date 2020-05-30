@@ -3,14 +3,9 @@
 namespace App\Src\Controller;
 
 
-
-use App\Src\Form\ConnectForm;
-use App\Src\Form\InscriptionForm;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
-use App\Src\Service\Entity\UserEntity;
-use App\Src\Service\Manager\Manager;
-use App\Src\Service\Manager\UserManager;
+use App\Src\Service\Manager\BlogPostManager;
 use Faker;
 use DateTime;
 
@@ -19,6 +14,7 @@ class AdminController extends backController
 {
     public function home()
     {
+
         $this->render('Back/Views/home.html.twig');
     }
     public function addBlogPost()
@@ -40,56 +36,16 @@ class AdminController extends backController
         ];
 
         /**
-         * @var Manager $manager
+         * @var BlogPostManager $manager
          */
         $manager = $this->manager->getEntityManager(BlogPostEntity::class);
         $blogPost = new BlogPostEntity($dataBlogPost);
         $manager->save($blogPost);
 
-        $this->render('Front/Views/home.html.twig',["blog" => $blogPost]);
-    }
-    public function connectUser(){
-        $user = new UserEntity();
-        $builderForm = new ConnectForm($user);
-        $builderForm->buildForm();
-        $form = $builderForm->createForm($this->request);
-
-
-        $this->render('Back/Views/connect.html.twig',["form"=>$form]);
-    }
-    public function inscription()
-    {
-        /**
-         * @var UserManager $userManager
-         */
-
-
-        if($this->request->method() === 'POST'){
-            $user = new UserEntity($this->request->post());
-        }
-
-        else
-            $user = new UserEntity();
-
-        $builderForm = new InscriptionForm($user);
-        $builderForm->buildForm();
-
-        $form = $builderForm->createForm($this->request);
-
-        if($form->isSubmitted() && $form->isValid()){
-
-            /**
-             * @var UserManager $managerUser
-             */
-            $managerUser = $this->manager->getEntityManager(UserEntity::class);
-            $managerUser->save($user);
-        }
-
-
-        $this->render('Back/Views/inscription.html.twig',["form"=>$form]);
     }
 
 
+/*
     public function faker()
     {
 
@@ -133,5 +89,5 @@ class AdminController extends backController
         $this->render('Front/Views/home.html.twig');
     }
 
-
+*/
 }
