@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Src\Form\Field;
-
 
 class Textarea extends Field
 {

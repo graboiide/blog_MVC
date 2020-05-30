@@ -17,8 +17,7 @@
   "/admin": {
     "module": "home",
     "controller": "admin",
-    "name": "admin_home",
-    "method": "GET"
+    "name": "admin_home"
   },
   "/show-[i:id]": {
     "module": "show",
@@ -39,12 +38,12 @@
   },
   "/admin/connect": {
     "module": "connectUser",
-    "controller": "admin",
+    "controller": "home",
     "name": "admin_connect"
   },
   "/admin/inscription": {
     "module": "inscription",
-    "controller": "admin",
+    "controller": "home",
     "name": "admin_inscription"
   },
   "/admin/profile": {

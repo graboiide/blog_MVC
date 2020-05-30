@@ -28,6 +28,11 @@ class  HttpRequest
     {
         $this->get = array_merge($data,(array)$this->get);
     }
+    public function setCookie($data)
+    {
+        setcookie($data[0],$data[1],time() + $data[2] * 24 * 3600,'/');
+
+    }
     public function cookie($key)
     {
         return isset($this->cookie[$key]) ? $this->cookie[$key] : null;

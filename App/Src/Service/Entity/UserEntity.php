@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Src\Service\Entity;
-
 
 class UserEntity extends Entity
 {
@@ -11,6 +9,23 @@ class UserEntity extends Entity
     protected $avatar;
     protected $password;
     private $role;
+    private $token;
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token): void
+    {
+        $this->token = $token;
+    }
 
     /**
      * @return mixed
