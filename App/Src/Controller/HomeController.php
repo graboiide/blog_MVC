@@ -4,13 +4,16 @@ namespace App\Src\Controller;
 
 use App\App;
 use App\Src\Form\CommentForm;
+use App\Src\Form\ConnectForm;
 use App\Src\Form\Form;
+use App\Src\Form\InscriptionForm;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
+use App\Src\Service\Entity\UserEntity;
 use App\Src\Service\HTTP\HttpRequest;
-use App\Src\Service\HTTP\HttpResponse;
 use App\Src\Service\Manager\BlogPostManager;
 use App\Src\Service\Manager\CommentManager;
+use App\Src\Service\Manager\UserManager;
 use DateTime;
 
 class HomeController extends backController
@@ -80,8 +83,8 @@ class HomeController extends backController
 
         if($form->isSubmitted() && $form->isValid()){
             $commentManager->save($comment);
-            $response = new HttpResponse();
-            $response->redirect($this->request->uri());
+
+            $this->response->redirect($this->request->uri());
         }
 
         $this->render('Front/views/show.html.twig',["blogs"=>$blogs,"comments"=>$comments,"form"=>$form]);
@@ -97,6 +100,56 @@ class HomeController extends backController
             ['title'=>'Autres','nb'=>2]
         ]);
 
+    }
+
+    public function connectUser(){
+        $user = new UserEntity();
+        $builderForm = new ConnectForm($user);
+        $builderForm->buildForm();
+        $form = $builderForm->createForm($this->request);
+        if($form->isSubmitted() && $form->isValid()){
+            /**
+             * @var UserManager $manager
+             */
+            $manager = $this->manager->getEntityManager(UserEntity::class);
+            $user = $manager->getUserByName($this->request->post('name'));
+            if($user->getPassword() === sha1($this->request->post('password'))){
+                $this->userHandler->connect($user);
+                $this->response->redirect("/admin");
+            }
+        }
+
+        $this->render('Back/Views/connect.html.twig',["form"=>$form]);
+    }
+    public function inscription()
+    {
+        /**
+         * @var UserManager $userManager
+         */
+        if($this->request->method() === 'POST'){
+            $user = new UserEntity($this->request->post());
+            $user->setPassword(sha1($this->request->post('password')));
+        }
+        else
+            $user = new UserEntity();
+        $builderForm = new InscriptionForm($user);
+        $builderForm->buildForm();
+
+        $form = $builderForm->createForm($this->request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            /**
+             * @var UserManager $managerUser
+             */
+            $managerUser = $this->manager->getEntityManager(UserEntity::class);
+            $idUser = $managerUser->save($user);
+            $managerUser->createToken(uniqid(),$idUser);
+            $this->response->redirect("/blog");
+
+        }
+
+
+        $this->render('Back/Views/inscription.html.twig',["form"=>$form]);
     }
 
 

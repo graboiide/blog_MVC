@@ -5,9 +5,11 @@ namespace App;
 use AltoRouter;
 use App\Src\Controller\backController;
 use App\Src\Service\Config;
+
 use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\Renderer\TwigRenderer;
 use Exception;
+
 
 
 class App
@@ -16,14 +18,12 @@ class App
 
     private $renderer;
     private $router;
+    protected $userhandler;
 
     public function __construct()
     {
         $this->router = new AltoRouter();
-
-
         $this->renderer = new TwigRenderer(Config::getVar('twig template_path'));
-
 
     }
 
@@ -84,7 +84,6 @@ class App
             $request->paramsRoute($match['params']);
             $controllerClass = '\App\Src\Controller\\'.explode('#',$match['target'])[0].'Controller';
             return new $controllerClass($this,explode('#',$match['target'])[1],$request);
-
         }
 
         $this->renderer->render('Errors/404.html.twig');

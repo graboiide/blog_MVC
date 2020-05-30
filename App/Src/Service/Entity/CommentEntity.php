@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Src\Service\Entity;
-
 
 class CommentEntity extends Entity
 {
