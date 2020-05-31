@@ -92,7 +92,7 @@ class UserManager extends BackManager
             $request->bindValue(':user_id',$userId);
             $request->execute();
         }catch (Exception $e){
-            echo $e->getMessage();
+            print_r($e->getMessage());
         }
 
 

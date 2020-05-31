@@ -5,7 +5,10 @@ namespace App\Src\Form;
 
 
 use App\Src\Form\Field\Field;
+use App\Src\Form\Field\Hidden;
+use App\Src\Security\CsrfSecurity;
 use App\Src\Service\HTTP\HttpRequest;
+
 
 class Form
 {
@@ -16,6 +19,7 @@ class Form
     private $fieldsError;
     private $request;
     private $template;
+    private $csrf = false;
 
     public function __construct(FormBuilder $formBuilder,HttpRequest $request)
     {
@@ -31,6 +35,7 @@ class Form
      */
     public function widget($name)
     {
+
         /**
          * @var Field $field
          */
@@ -40,12 +45,15 @@ class Form
         //récupere le field dans le builder
         $field = $this->formBuilder->getField($name);
         $widget='';
+        $widget .= $this->addCsrfProtection();
 
         if($field->getErrors() != null)
             foreach ($field->getErrors() as $error)
                 $widget .= '<span class="error text-danger">'.$error.'</span><br>';
         return $widget.' <div class="form-group">'.$field->getWidget().'</div>';
     }
+
+
 
     /**
      * Recupere seulement le champs, permet de recuperer leur valeurs simplement
@@ -79,6 +87,21 @@ class Form
     }
 
     /**
+     * @return string
+     */
+    private function addCsrfProtection()
+    {
+
+        if(!$this->csrf){
+            $this->csrf = true;
+            $token =CsrfSecurity::generateToken();
+            $field = new Hidden(["name"=>"token","value"=>$token]);
+            return $field->getWidget();
+        }
+        else
+            return '';
+    }
+    /**
      * Boucle les champs vérifie leurs validators et retourne tous les fields avec des erreurs
      *
      * @return bool
@@ -96,6 +119,11 @@ class Form
                  $this->fieldsError[]=$field;
              }
         }
+        if(!CsrfSecurity::isValid($this->request->post('token'))){
+            $valid = false;
+        }
+
+
 
         return $valid;
     }
