@@ -4,9 +4,9 @@
 namespace App\Src\Service\HTTP;
 
 
-use SessionHandler;
 
-class Session extends SessionHandler
+
+class Session
 {
 
     static public function set($name, $data=[])
@@ -18,6 +18,11 @@ class Session extends SessionHandler
     static public function get($name)
     {
         return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
+    }
+    static public function unset($name)
+    {
+        if(isset($_SESSION[$name]))
+            unset($_SESSION[$name]);
     }
 
 }

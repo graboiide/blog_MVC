@@ -14,7 +14,7 @@ use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\HTTP\HttpResponse;
 use App\Src\Service\HTTP\Session;
 use App\Src\Service\Manager\Manager;
-use Exception;
+
 
 
 class BackController
@@ -45,31 +45,19 @@ class BackController
         //on recupere la liste des controllers protégé
         $protected = Config::getVar('connect protected_controllers');
         //partie protégé
-        if(array_key_exists($class,$protected) ){
+
             //on verifie qu'il est connecté ou que la variable session a le bon role
-            if(!$this->userHandler->isConnected() || Session::get('connect') != $protected[$class]){
-                $response = new HttpResponse();
-                $response->redirect('admin/connect');
-            }
-
-
+        if(array_key_exists($class,$protected) && (!$this->userHandler->isConnected() || Session::get('connect') != $protected[$class])){
+            $response = new HttpResponse();
+            $response->redirect('admin/connect');
         }
 
         $method = $this->action;
-        try {
-            if(!is_callable([$this,$method]))
-            {
-                /**
-                 * @throws Exception
-                 */
-                throw new Exception("L'action $this->action n'existe pas dans le controller");
-            }
-        }catch (Exception $e)
+        if(is_callable([$this,$method]))
         {
-            print_r($e->getMessage()) ;
+            $this->$method();
         }
 
-        $this->$method();
     }
 
     public function render($path,$params = []):void

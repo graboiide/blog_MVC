@@ -83,7 +83,6 @@ class HomeController extends backController
 
         if($form->isSubmitted() && $form->isValid()){
             $commentManager->save($comment);
-
             $this->response->redirect($this->request->uri());
         }
 
