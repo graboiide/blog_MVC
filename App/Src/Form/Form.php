@@ -121,6 +121,7 @@ class Form
         }
         if(!CsrfSecurity::isValid($this->request->post('token'))){
             $valid = false;
+            echo 'Csrf error';
         }
 
 

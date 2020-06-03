@@ -3,45 +3,129 @@
 namespace App\Src\Controller;
 
 
+use App\App;
+use App\Src\Form\BlogPostForm;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
+use App\Src\Service\HTTP\HttpRequest;
+use App\Src\Service\HTTP\Session;
 use App\Src\Service\Manager\BlogPostManager;
+use App\Src\Service\Manager\CommentManager;
 use Faker;
 use DateTime;
 
 
 class AdminController extends backController
 {
+    public function __construct(App $app, $action, HttpRequest $request)
+    {
+        parent::__construct($app, $action, $request);
+        $this->notify();
+    }
+
     public function home()
     {
+        /**
+         * @var BlogPostManager $managerBlog
+         */
+        $managerBlog = $this->manager->getEntityManager(BlogPostEntity::class);
+        $listBlog = $managerBlog->listBlogs();
 
-        $this->render('Back/Views/home.html.twig');
+        $this->render('Back/Views/home.html.twig',["blogs" => $listBlog]);
     }
     public function addBlogPost()
     {
+        /**
+        * @var BlogPostManager $manager
+        */
+        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
+        if($this->request->method() == 'POST')
+        {
+            $blog = new BlogPostEntity($this->request->post());
+            $date = new DateTime("now");
+            $blog->setUserId(Session::get("user_id"));
+            $blog->setId($this->request->get("idBlog"));
+            $blog->setDate( $date->format("Y-m-d"));
+        }
+        else
+            $blog = new BlogPostEntity();
 
-        $date1 = new DateTime('now');
-        $date1 = $date1->format("Y-m-d");
+        $formBuilder = new BlogPostForm($blog);
+        $formBuilder->buildForm();
+        $form = $formBuilder->createForm($this->request);
+        if($form->isSubmitted() && $form->isValid() ){
+            $manager->save($blog);
+        }
 
-        $dataBlogPost = [
+        $this->render('Back/Views/add_blog_post.html.twig',["form" => $form]);
 
-            "contain" => 'dication 3' ,
-            "chapo" => 'ffg_ gg',
-            "image" => 'https://via.placeholder.com/150',
-            "title" => 'mon premier blog',
-            "slug" => 'mon_premier_blog',
-            "date" => $date1,
-            "is_published" => 1,
-            'user_id'=>1
-        ];
+    }
+    public function updateBlogPost()
+    {
+        /**
+         * @var BlogPostManager $manager
+         */
+        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
+        if($this->request->method() == 'POST')
+        {
+            $date = new DateTime("now");
+            $blog = new BlogPostEntity($this->request->post());
+            $blog->setId($this->request->get("idBlog"));
+            $blog->setDateMaj($date->format("Y-m-d"));
+        }
+        else
+            $blog = $manager->findById($this->request->get("idBlog"));
+
+        $formBuilder = new BlogPostForm($blog);
+        $formBuilder->buildForm();
+        $form = $formBuilder->createForm($this->request);
+        if($form->isSubmitted() && $form->isValid() ){
+            $manager->save($blog);
+            $this->response->redirect('/admin/postblogs');
+        }
+
+        $this->render('Back/Views/add_blog_post.html.twig',["form" => $form,"modified"=>true]);
+
+    }
+    public function listBlogPost()
+    {
 
         /**
          * @var BlogPostManager $manager
          */
         $manager = $this->manager->getEntityManager(BlogPostEntity::class);
-        $blogPost = new BlogPostEntity($dataBlogPost);
-        $manager->save($blogPost);
+        $listBlog = $manager->listBlogs(0,20);
+        $this->render('Back/Views/list_blog.html.twig',["blogs" => $listBlog]);
 
+    }
+
+
+    private function notify()
+    {
+        $nbNotify = 0;
+        /**
+         * @var CommentManager $commentManager
+         */
+        $commentManager = $this->manager->getEntityManager(CommentEntity::class);
+        //notifie commentaires
+        $nbComments = $commentManager->countForValidate();
+
+        /**
+         * @var BlogPostManager $blogManager
+         */
+        $blogManager = $this->manager->getEntityManager(BlogPostEntity::class);
+        //notifie commentaires
+        $nbBlogBrouillon = $blogManager->countBrouillon();
+
+        if($nbComments > 0){
+            $this->app->getRenderer()->addGlobal("notifyComment",$nbComments);
+            $nbNotify++;
+        }
+        if($nbBlogBrouillon > 0){
+            $this->app->getRenderer()->addGlobal("notifyBlog",$nbBlogBrouillon);
+            $nbNotify++;
+        }
+        $this->app->getRenderer()->addGlobal("nbNotify",$nbNotify);
     }
 
 

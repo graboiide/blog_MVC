@@ -4,10 +4,15 @@
     "controller": "home",
     "name": "home"
   },
-  "/add_blog": {
+  "/admin/add_blog": {
     "module": "addBlogPost",
     "controller": "admin",
     "name": "addBlog"
+  },
+  "/admin/add_blog/[i:idBlog]": {
+    "module": "updateBlogPost",
+    "controller": "admin",
+    "name": "modifBlog"
   },
   "/page-[i:page]": {
     "module": "home",
@@ -25,7 +30,7 @@
     "name": "show"
   },
   "/admin/postblogs": {
-    "module": "postblogs",
+    "module": "listBlogPost",
     "controller": "admin",
     "name": "admin_postblogs",
     "method": "GET"

@@ -35,9 +35,8 @@ class HandlerUser
 
                 $userManager = $this->manager->getEntityManager(UserEntity::class);
                 $user = $userManager->getUserByToken($this->request->cookie('token'));
-
-
                 Session::set('connect',$user->getRole());
+                Session::set('user_id',$user->getId());
                 $this->updateToken($user);
                 return true;
             }
@@ -63,6 +62,7 @@ class HandlerUser
     public function connect(UserEntity $user)
     {
         Session::set('connect',$user->getRole());
+        Session::set('user_id',$user->getId());
         $this->updateToken($user);
 
     }

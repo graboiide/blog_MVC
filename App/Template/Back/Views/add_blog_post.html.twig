@@ -1,0 +1,36 @@
+{% extends "Back/index.html.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div class="card">
+                <h1 class="box-title p-3">Ajouter un blog Post</h1>
+                <div class="card-header">
+
+                </div>
+                <div class="card-body">
+
+
+                    <form method="post" action="">
+                        {{ form.widget("title")|raw }}
+                        {{ form.widget("slug")|raw }}
+                        {{ form.widget("image")|raw }}
+                        {{ form.widget("chapo")|raw }}
+                        {{ form.widget("contain")|raw }}
+                        {% if modified %}
+                            <input type="submit" class="btn btn-success" value="Modifier">
+                        {% else %}
+                            <input type="submit" class="btn btn-success" value="Créer">
+                        {% endif %}
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
