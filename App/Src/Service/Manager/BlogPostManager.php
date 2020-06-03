@@ -4,7 +4,6 @@
 namespace App\Src\Service\Manager;
 
 
-use App\Src\Service\Converter\NamingConverter;
 use App\Src\Service\Entity\BlogPostEntity;
 use Exception;
 use PDO;
@@ -40,19 +39,53 @@ class BlogPostManager extends BackManager
         return null;
     }
 
+    public function listBlogs($limit = 0,$offset = 10)
+    {
+        try {
+            $select = implode(', blog_post.',$this->attributes);
+            $sql = ' SELECT '.$select.', user.name as author FROM blog_post 
+            INNER JOIN user ON blog_post.user_id = user.id
+            LIMIT :limit , :offset';
+
+
+            $request = $this->db->prepare($sql);
+            $request->bindValue(':limit', $limit,PDO::PARAM_INT);
+            $request->bindValue(':offset', $offset,PDO::PARAM_INT);
+            $request->execute();
+            $listBlogs = [];
+            foreach ($request->fetchAll() as $data){
+                $blogPost = new BlogPostEntity($data);
+                $blogPost->setAuthor($data['author']);
+                $listBlogs[] = $blogPost;
+            }
+            return $listBlogs;
+        }catch (Exception $e){
+            echo $e->getMessage();
+        }
+
+        return null;
+    }
+
     /**
      * @param $id
      * @return BlogPostEntity
      */
     public function findById($id)
     {
-        $sql = 'SELECT '.implode(', ',$this->attributes).' FROM blog_post WHERE id = :id';
-        $request = $this->db->prepare($sql);
-        $request->bindValue(':id', $id,PDO::PARAM_INT);
-        $request->execute();
-        $data = $request->fetch();
-        $blog = new BlogPostEntity($data);
-        return $blog;
+        try {
+            $sql = 'SELECT '.implode(', ',$this->attributes).' FROM blog_post WHERE id = :id';
+
+            $request = $this->db->prepare($sql);
+            $request->bindValue(':id', $id,PDO::PARAM_INT);
+            $request->execute();
+            $data = $request->fetch();
+            return new BlogPostEntity((array)$data);
+
+        }catch (Exception $e){
+           print_r($e->getMessage()) ;
+        }
+        return null;
+
     }
 
     /**
@@ -86,6 +119,20 @@ class BlogPostManager extends BackManager
     {
         try {
             $sql = 'SELECT COUNT(*) as nb FROM blog_post';
+            $request = $this->db->query($sql);
+            $request->execute();
+            return $request->fetch()['nb'];
+
+        }catch (Exception $e){
+            var_dump($e->getMessage().'<br>');
+        }
+
+        return null;
+    }
+    public function countBrouillon()
+    {
+        try {
+            $sql = 'SELECT COUNT(*) as nb FROM blog_post WHERE is_published = 0';
             $request = $this->db->query($sql);
             $request->execute();
             return $request->fetch()['nb'];

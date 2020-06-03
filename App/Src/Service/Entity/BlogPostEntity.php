@@ -22,6 +22,23 @@ class BlogPostEntity extends Entity
     private $comments = [];
     private $nbComment;
     private $userBlogPost = [];
+    private $author;
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
+    }
 
     /**
      * @return mixed

@@ -30,6 +30,7 @@ class BackManager extends Manager
      */
     protected function add(Entity $entity)
     {
+
         //Créer le tableau de colonne
         $select = implode(', ',$entity->extractAttributes());
         $tokens = implode(', :',$entity->extractAttributes());

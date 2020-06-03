@@ -11,6 +11,10 @@ class UserEntity extends Entity
     private $role;
     private $token;
 
+
+
+
+
     /**
      * @return mixed
      */

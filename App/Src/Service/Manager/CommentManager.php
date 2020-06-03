@@ -33,6 +33,7 @@ class CommentManager extends BackManager
 
     }
 
+
     public function countByBlog($idBlog)
     {
         try {
@@ -40,6 +41,20 @@ class CommentManager extends BackManager
             $request = $this->db->prepare($sql);
 
             $request->bindValue(':post_blog_id', (int)$idBlog,PDO::PARAM_INT);
+            $request->execute();
+            return $request->fetch()['nb'];
+
+        }catch (Exception $e){
+            var_dump($e->getMessage().'<br>');
+        }
+
+        return null;
+    }
+    public function countForValidate()
+    {
+        try {
+            $sql = 'SELECT COUNT(*) as nb FROM comment WHERE is_validate = 0';
+            $request = $this->db->prepare($sql);
             $request->execute();
             return $request->fetch()['nb'];
 
