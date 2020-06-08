@@ -13,13 +13,39 @@ abstract class Field implements FieldInterface
     protected $placeholder;
     protected $required = false;
     protected $errors;
+    protected $label;
+
 
     public function __construct($data)
     {
         $this->hydrate($data);
     }
     use Hydrator;
+    public function createLabel()
+    {
+        if($this->label != null)
+            return '<label for="'.$this->name.'">'.$this->label.'</label>';
+        return '<label for="'.$this->name.'">'.ucfirst($this->name).'</label>';
+    }
+    /**
+     * @return mixed
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
 
+    /**
+     * @param mixed $label
+     */
+    public function setLabel($label): void
+    {
+        $this->label = $label;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getErrors(){
         return $this->errors;
     }
@@ -30,6 +56,7 @@ abstract class Field implements FieldInterface
     {
         return $this->name;
     }
+
 
     /**
      * @param mixed $placeholder

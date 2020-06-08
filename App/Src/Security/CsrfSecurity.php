@@ -25,9 +25,10 @@ class CsrfSecurity
     static public function isValid($token)
     {
 
-        if(Session::get('token') == $token){
+        if($token != null && Session::get('token') == $token){
             return true;
         }
+
         return false;
     }
 

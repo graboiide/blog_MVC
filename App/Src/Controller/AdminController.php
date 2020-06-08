@@ -4,15 +4,18 @@ namespace App\Src\Controller;
 
 
 use App\App;
-use App\Src\Form\BlogPostForm;
+
+use App\Src\Form\InscriptionForm;
+
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
+use App\Src\Service\Entity\UserEntity;
 use App\Src\Service\HTTP\HttpRequest;
-use App\Src\Service\HTTP\Session;
+
 use App\Src\Service\Manager\BlogPostManager;
 use App\Src\Service\Manager\CommentManager;
+use App\Src\Service\Manager\UserManager;
 use Faker;
-use DateTime;
 
 
 class AdminController extends backController
@@ -25,6 +28,7 @@ class AdminController extends backController
 
     public function home()
     {
+
         /**
          * @var BlogPostManager $managerBlog
          */
@@ -33,73 +37,37 @@ class AdminController extends backController
 
         $this->render('Back/Views/home.html.twig',["blogs" => $listBlog]);
     }
-    public function addBlogPost()
+
+    public function inscription()
     {
         /**
-        * @var BlogPostManager $manager
-        */
-        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
-        if($this->request->method() == 'POST')
-        {
-            $blog = new BlogPostEntity($this->request->post());
-            $date = new DateTime("now");
-            $blog->setUserId(Session::get("user_id"));
-            $blog->setId($this->request->get("idBlog"));
-            $blog->setDate( $date->format("Y-m-d"));
+         * @var UserManager $userManager
+         */
+        if($this->request->method() === 'POST'){
+            $user = new UserEntity($this->request->post());
+            $user->setPassword(sha1($this->request->post('password')));
         }
         else
-            $blog = new BlogPostEntity();
+            $user = new UserEntity();
+        $builderForm = new InscriptionForm($user);
+        $builderForm->buildForm();
 
-        $formBuilder = new BlogPostForm($blog);
-        $formBuilder->buildForm();
-        $form = $formBuilder->createForm($this->request);
-        if($form->isSubmitted() && $form->isValid() ){
-            $manager->save($blog);
+        $form = $builderForm->createForm($this->request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            /**
+             * @var UserManager $managerUser
+             */
+            $managerUser = $this->manager->getEntityManager(UserEntity::class);
+            $idUser = $managerUser->save($user);
+            $managerUser->createToken(uniqid(),$idUser);
+            $this->response->redirect("/blog");
+
         }
 
-        $this->render('Back/Views/add_blog_post.html.twig',["form" => $form]);
 
+        $this->render('Back/Views/inscription.html.twig',["form"=>$form]);
     }
-    public function updateBlogPost()
-    {
-        /**
-         * @var BlogPostManager $manager
-         */
-        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
-        if($this->request->method() == 'POST')
-        {
-            $date = new DateTime("now");
-            $blog = new BlogPostEntity($this->request->post());
-            $blog->setId($this->request->get("idBlog"));
-            $blog->setDateMaj($date->format("Y-m-d"));
-        }
-        else
-            $blog = $manager->findById($this->request->get("idBlog"));
-
-        $formBuilder = new BlogPostForm($blog);
-        $formBuilder->buildForm();
-        $form = $formBuilder->createForm($this->request);
-        if($form->isSubmitted() && $form->isValid() ){
-            $manager->save($blog);
-            $this->response->redirect('/admin/postblogs');
-        }
-
-        $this->render('Back/Views/add_blog_post.html.twig',["form" => $form,"modified"=>true]);
-
-    }
-    public function listBlogPost()
-    {
-
-        /**
-         * @var BlogPostManager $manager
-         */
-        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
-        $listBlog = $manager->listBlogs(0,20);
-        $this->render('Back/Views/list_blog.html.twig',["blogs" => $listBlog]);
-
-    }
-
-
     private function notify()
     {
         $nbNotify = 0;
@@ -127,9 +95,7 @@ class AdminController extends backController
         }
         $this->app->getRenderer()->addGlobal("nbNotify",$nbNotify);
     }
-
-
-/*
+    /*
     public function faker()
     {
 
@@ -172,6 +138,7 @@ class AdminController extends backController
 
         $this->render('Front/Views/home.html.twig');
     }
+    */
 
-*/
+
 }

@@ -22,7 +22,9 @@
   },
   "connect": {
     "protected_controllers": {
-      "AdminController": "admin"
+      "AdminController": "admin",
+      "BackController": "admin",
+      "CommentController": "admin"
     },
     "page_connect": "admin/connect"
   }

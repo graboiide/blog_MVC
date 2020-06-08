@@ -3,9 +3,15 @@
 
 namespace App\Src\Form;
 
+use App\Src\Form\Field\CheckBox;
+use App\Src\Form\Field\Hidden;
 use App\Src\Form\Field\Input;
 use App\Src\Form\Field\Textarea;
+
+use App\Src\Form\Field\Upload;
 use App\Src\Form\Validator\Length;
+use App\Src\Form\Validator\UploadValidate;
+
 
 class BlogPostForm extends FormBuilder
 {
@@ -14,35 +20,37 @@ class BlogPostForm extends FormBuilder
        $this
            ->addField(Input::class,[
                "name"=>"title",
-               "placeholder"=>"Titre du blog"
+               "label"=>"Titre du blog post"
            ])
            ->addValidator(Length::class,[
                "min"=>2,
                "max"=>30])
-
-           ->addField(Input::class,[
-               "name"=>"image",
-               "placeholder"=>"url de l'image"
+           ->addField(Hidden::class,["name"=>"image"])
+           ->addField(Upload::class,[
+               "name"=>"imageFile",
+               "label"=>"choisissez une image"
            ])
+           ->addValidator(UploadValidate::class)
            ->addField(Textarea::class,[
                "name"=>'contain',
-               "placeholder"=>"Contenu du blog",
+               "label"=>"Contenu",
                "cols"=>30,
-               "rows"=>20
+               "rows"=>20,
+               "id"=>'tinyMce'
            ])
            ->addValidator(Length::class,[
                "min"=>30,
                "max"=>2000])
            ->addField(Textarea::class,[
                "name"=>'chapo',
-               "placeholder"=>"chapo du blog",
                "cols"=>30,
                "rows"=>4
            ])
            ->addValidator(Length::class,[
                "min"=>10,
                "max"=>200])
-           ->addField(Input::class,["name"=>"slug","placeholder"=>"Slug du blog post"])
+           ->addField(Input::class,["name"=>"slug"])
+           ->addField(CheckBox::class,["name"=>"is_published","label"=>"Enregistrer en brouillon"])
 
        ;
 

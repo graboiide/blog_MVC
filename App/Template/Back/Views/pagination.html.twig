@@ -1,0 +1,14 @@
+<nav  aria-label="...">
+    <ul class="pagination justify-content-center pagination-sm">
+        {% for i in 1..nbPage %}
+            {% if i == page %}
+                {% set disabled = 'disabled' %}
+            {% else %}
+                {% set disabled = '' %}
+            {% endif %}
+            <li class="page-item {{ disabled }}">
+                <a class="page-link" href="{{ link~i }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

@@ -33,7 +33,7 @@
                     <!-- Logo -->
                     <div class="col-xl-2 col-lg-2 col-md-1">
                         <div class="logo">
-                            <a href="index.html"><img src="{{ assets }}img/logo/logo.png" alt=""></a>
+                            <a href="{{ router.generate("home") }}"><img src="{{ assets }}img/logo.png" alt=""></a>
                         </div>
                     </div>
                     <div class="col-xl-10 col-lg-10 col-md-10">
@@ -42,7 +42,7 @@
                             <div class="main-menu f-right d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a href="../../../../myphotography/myphotography/index.html">Acceuil</a></li>
+                                        <li><a href="/">Accueil</a></li>
                                         <li><a href="{{ router.generate('home') }}">Blog</a>
 
                                         </li>
@@ -84,16 +84,12 @@
     <section class="blog_area section-padding">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="col-lg-10 mb-5 mb-lg-0">
     <!--================Blog Area =================-->
                         {% block blog %}{% endblock %}
     <!--================Blog Area =================-->
                 </div>
-                <div class="col-lg-4">
-                    <div class="blog_right_sidebar">
-                        {% include 'Front/Views/categories.html.twig' %}
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -108,11 +104,11 @@
                         <div class="single-footer-caption mb-50">
                             <!-- logo -->
                             <div class="footer-logo">
-                                <a href="../../../../myphotography/myphotography/index.html"><img src="{{ asset }}img/logo/logo2_footer.png" alt=""></a>
+                                <a href="{{ router.generate("home") }}"><img src="{{ asset }}img/logo.png" alt=""></a>
                             </div>
                             <div class="footer-tittle">
                                 <div class="footer-pera">
-                                    <p class="info1">Grabbing the concsumer’s attention isn’t enough you have to keep that attention for at least a.</p>
+                                    <p class="info1">Blog sur le developpeement web</p>
                                 </div>
                             </div>
                         </div>
@@ -122,11 +118,9 @@
                             <div class="footer-tittle">
                                 <h4>Navigation</h4>
                                 <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Events</a></li>
-                                    <li><a href="#">Testimonial</a></li>
-                                    <li><a href="#">Categories</a></li>
-                                    <li><a href="#">Contacts</a></li>
+                                    <li><a href="#">Accueil</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -134,34 +128,16 @@
                     <div class="col-xl-2 col-lg-2 col-md-5 col-sm-6">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>Useful Links</h4>
+                                <h4>Lien utiles</h4>
                                 <ul>
-                                    <li><a href="#">Registration</a></li>
-                                    <li><a href="#">Login</a></li>
-                                    <li><a href="#">Policy</a></li>
+                                    <li><a href="{{ router.generate("admin_home") }}">Administration</a></li>
                                     <li><a href="#">Terms & Conditions</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- Instagram -->
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-7">
-                        <div class="single-footer-caption mb-50">
-                            <div class="footer-tittle">
-                                <h4>Instagram Feed</h4>
-                            </div>
-                            <div class="instagram-gellay">
-                                <ul class="insta-feed">
-                                    <li><a href="#"><img src="../../../../myphotography/myphotography/assets/img/gallery/instagram1.png" alt=""></a></li>
-                                    <li><a href="#"><img src="../../../../myphotography/myphotography/assets/img/gallery/instagram2.png" alt=""></a></li>
-                                    <li><a href="#"><img src="../../../../myphotography/myphotography/assets/img/gallery/instagram3.png" alt=""></a></li>
-                                    <li><a href="#"><img src="../../../../myphotography/myphotography/assets/img/gallery/instagram4.png" alt=""></a></li>
-                                    <li><a href="#"><img src="../../../../myphotography/myphotography/assets/img/gallery/instagram5.png" alt=""></a></li>
-                                    <li><a href="#"><img src="../../../../myphotography/myphotography/assets/img/gallery/instagram6.png" alt=""></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
             <div class="footer-bottom">

@@ -8,8 +8,10 @@ class Input extends Field
     protected $maxLength;
     public function getWidget()
     {
+
         return '
                 <input 
+                id="'.$this->name.'"
                 name="'.$this->name.'"
                 class="form-control" 
                 type="text" id="id" 

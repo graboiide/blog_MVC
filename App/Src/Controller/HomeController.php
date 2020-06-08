@@ -6,7 +6,6 @@ use App\App;
 use App\Src\Form\CommentForm;
 use App\Src\Form\ConnectForm;
 use App\Src\Form\Form;
-use App\Src\Form\InscriptionForm;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
 use App\Src\Service\Entity\UserEntity;
@@ -37,7 +36,7 @@ class HomeController extends backController
         /**
          * @var CommentManager $commentManager
          */
-        $listBlogs = $blogManager->listPublished($page * 10,$page * 10 + 10);
+        $listBlogs = $blogManager->listPublished($page * 10,10);
         $commentManager = $this->manager->getEntityManager(CommentEntity::class);
         $nbPage = ceil($blogManager->count()/10);
         /**
@@ -57,13 +56,11 @@ class HomeController extends backController
         $blogManager = $this->manager->getEntityManager(BlogPostEntity::class);
         $blogs = $blogManager->findBlogsForNav($this->request->get('id'));
 
-
         /**
          * @var CommentManager $commentManager
          */
         $commentManager = $this->manager->getEntityManager(CommentEntity::class);
         $comments = $commentManager->listPublished($blogs['target']->getId());
-
         $dateNow= new DateTime('now');
         if($this->request->method() === 'POST')
             $comment = new CommentEntity(array_merge($this->request->post(),[
@@ -88,7 +85,27 @@ class HomeController extends backController
 
         $this->render('Front/views/show.html.twig',["blogs"=>$blogs,"comments"=>$comments,"form"=>$form]);
     }
+    public function connectUser(){
+        $user = new UserEntity();
+        $builderForm = new ConnectForm($user);
+        $builderForm->buildForm();
+        $form = $builderForm->createForm($this->request);
+        if($form->isSubmitted() && $form->isValid()){
+            /**
+             * @var UserManager $manager
+             */
+            $manager = $this->manager->getEntityManager(UserEntity::class);
+            $user = $manager->getUserByName($this->request->post('name'));
 
+            if($user->getPassword() === sha1($this->request->post('password'))){
+                $this->userHandler->connect($user);
+                $this->response->redirect("/blog");
+            }
+
+        }
+
+        $this->render('Back/Views/connect.html.twig',["form"=>$form]);
+    }
     private function cate()
     {
 
@@ -101,55 +118,7 @@ class HomeController extends backController
 
     }
 
-    public function connectUser(){
-        $user = new UserEntity();
-        $builderForm = new ConnectForm($user);
-        $builderForm->buildForm();
-        $form = $builderForm->createForm($this->request);
-        if($form->isSubmitted() && $form->isValid()){
-            /**
-             * @var UserManager $manager
-             */
-            $manager = $this->manager->getEntityManager(UserEntity::class);
-            $user = $manager->getUserByName($this->request->post('name'));
-            if($user->getPassword() === sha1($this->request->post('password'))){
-                $this->userHandler->connect($user);
-                $this->response->redirect("/admin");
-            }
-        }
 
-        $this->render('Back/Views/connect.html.twig',["form"=>$form]);
-    }
-    public function inscription()
-    {
-        /**
-         * @var UserManager $userManager
-         */
-        if($this->request->method() === 'POST'){
-            $user = new UserEntity($this->request->post());
-            $user->setPassword(sha1($this->request->post('password')));
-        }
-        else
-            $user = new UserEntity();
-        $builderForm = new InscriptionForm($user);
-        $builderForm->buildForm();
-
-        $form = $builderForm->createForm($this->request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            /**
-             * @var UserManager $managerUser
-             */
-            $managerUser = $this->manager->getEntityManager(UserEntity::class);
-            $idUser = $managerUser->save($user);
-            $managerUser->createToken(uniqid(),$idUser);
-            $this->response->redirect("/blog");
-
-        }
-
-
-        $this->render('Back/Views/inscription.html.twig',["form"=>$form]);
-    }
 
 
 

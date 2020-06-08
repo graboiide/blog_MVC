@@ -16,7 +16,7 @@
 
                 </ul>
                 <p class="excert">
-                    {{ blogs.target.contain }}
+                    {{ blogs.target.contain|raw }}
                 </p>
 
             </div>
@@ -118,7 +118,10 @@
             <form class="form-contact comment_form" method="post"  id="commentForm" action="#comments">
                 <div class="row">
                     <div class="col-12">
-                        {{ form.widget('message')|raw }}
+                        <div class="form-group">
+                            {{ form.widget('message')|raw }}
+                        </div>
+
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">

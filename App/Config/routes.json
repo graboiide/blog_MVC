@@ -6,13 +6,18 @@
   },
   "/admin/add_blog": {
     "module": "addBlogPost",
-    "controller": "admin",
+    "controller": "blog",
     "name": "addBlog"
   },
   "/admin/add_blog/[i:idBlog]": {
     "module": "updateBlogPost",
-    "controller": "admin",
+    "controller": "blog",
     "name": "modifBlog"
+  },
+  "/admin/delete_blog/[i:idBlog]": {
+    "module": "deleteBlogPost",
+    "controller": "blog",
+    "name": "deleteBlog"
   },
   "/page-[i:page]": {
     "module": "home",
@@ -29,26 +34,35 @@
     "controller": "home",
     "name": "show"
   },
-  "/admin/postblogs": {
+  "/admin/postblogs/[i:page]?": {
     "module": "listBlogPost",
-    "controller": "admin",
-    "name": "admin_postblogs",
-    "method": "GET"
+    "controller": "blog",
+    "name": "admin_postblogs"
   },
-  "/admin/comments": {
+
+  "/admin/comments/[a:action]/[i:page]?/[i:idBlog]?": {
     "module": "comments",
-    "controller": "admin",
-    "name": "admin_comments",
-    "method": "GET"
+    "controller": "comment",
+    "name": "admin_comments"
+  },
+  "/admin/delete_com/[i:idCom]": {
+    "module": "deleteComment",
+    "controller": "comment",
+    "name": "delete_comment"
+  },
+  "/admin/validate_com/[i:idCom]": {
+    "module": "validateComment",
+    "controller": "comment",
+    "name": "validate_comment"
   },
   "/admin/connect": {
     "module": "connectUser",
     "controller": "home",
-    "name": "admin_connect"
+    "name": "connect"
   },
   "/admin/inscription": {
     "module": "inscription",
-    "controller": "home",
+    "controller": "admin",
     "name": "admin_inscription"
   },
   "/admin/profile": {

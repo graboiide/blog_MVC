@@ -9,6 +9,7 @@ class  HttpRequest
     private $get;
     private $post;
     private $cookie;
+    private $server;
 
     public function __construct()
     {
@@ -22,6 +23,7 @@ class  HttpRequest
         $this->get = filter_input_array(INPUT_GET);
         $this->post = filter_input_array(INPUT_POST);
         $this->cookie = filter_input_array(INPUT_COOKIE);
+        $this->server = filter_input_array(INPUT_SERVER);
 
     }
     public function paramsRoute($data)
@@ -43,21 +45,29 @@ class  HttpRequest
     }
     public function method()
     {
-
-        $server = filter_input_array(INPUT_SERVER);
-
-        return $server['REQUEST_METHOD'];
+        return $this->server['REQUEST_METHOD'];
     }
     public function uri()
     {
-        $server = filter_input_array(INPUT_SERVER);
-        return $server['REQUEST_URI'];
+
+        return $this->server['REQUEST_URI'];
+    }
+    public function referer()
+    {
+        return $this->server['HTTP_REFERER'];
     }
     public function post($key=null)
     {
         if($key === null)
             return $this->post;
         return isset($this->post[$key]) ? $this->post[$key] : null;
+    }
+    public function file($key)
+    {
+        if($key === null)
+            return $_FILES;
+        else
+            return $_FILES[$key];
     }
 
 

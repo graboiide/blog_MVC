@@ -33,8 +33,8 @@ class UserManager extends BackManager
             $select = implode(',user.',$this->attributes);
 
             $sql = 'SELECT '.$select.',role.role FROM user 
-            INNER JOIN role ON user.id = role.user_id 
-            INNER JOIN token ON token.user_id = user.id
+            LEFT JOIN role ON user.id = role.user_id 
+            LEFT JOIN token ON token.user_id = user.id
             WHERE user.name = :name';
 
             $request = $this->db->prepare($sql);
@@ -61,8 +61,14 @@ class UserManager extends BackManager
             $request = $this->db->prepare($sql);
             $request->bindValue(':token',$token);
             $request->execute();
+            $data = $request->fetch();
+            if(!$data){
+                return new UserEntity(["role"=>"user"]);
+            }
+            else{
+                return  new UserEntity($data);
+            }
 
-            return  new UserEntity($request->fetch());
         }catch (Exception $e){
             print_r($e->getMessage() );
         }

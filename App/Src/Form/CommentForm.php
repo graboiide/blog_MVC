@@ -18,6 +18,7 @@ class CommentForm extends FormBuilder
             ->addField(Input::class,[
                 "name"=>"name",
                 "value"=>"dfsdfsdf",
+                "label"=>"Nom",
                 "placeholder"=>"votre nom"
             ])
             ->addValidator(Length::class,[
@@ -35,6 +36,7 @@ class CommentForm extends FormBuilder
             ->addField(Textarea::class,[
                 "name"=>'message',
                 "placeholder"=>"inscrivez un autre commentaire",
+                "label"=>"Message",
                 "cols"=>30,
                 "rows"=>7
             ])

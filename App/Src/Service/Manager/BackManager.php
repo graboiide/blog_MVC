@@ -5,6 +5,7 @@ namespace App\Src\Service\Manager;
 
 use App\Src\Service\Entity\Entity;
 use Exception;
+use PDO;
 
 class BackManager extends Manager
 {
@@ -101,5 +102,18 @@ class BackManager extends Manager
         return false;
 
     }
+    public function delete(Entity $entity)
+    {
+        try {
+            $sql = 'DELETE FROM '.$entity->extractTable().' WHERE id = :id';
+            $request = $this->db->prepare($sql);
+            $request->bindValue(':id',$entity->getId(),PDO::PARAM_INT);
+            $request->execute();
+        }catch (Exception $e){
+            print_r($e->getMessage());
+        }
+
+    }
+
 
 }

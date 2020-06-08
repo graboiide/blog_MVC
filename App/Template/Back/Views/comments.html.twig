@@ -1,0 +1,63 @@
+{% extends "Back/index.html.twig" %}
+
+{% block content %}
+    <div class="orders">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-xl-10">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Liste des commentaires à valider </h4>
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                <tr>
+                                    <th class="serial">#</th>
+                                    <th>Date</th>
+                                    <th class="avatar">Auteur</th>
+                                    <th>message</th>
+
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for comment in comments %}
+                                    <tr>
+                                        <td class="serial">{{ loop.index + ((page-1)*nbPerPage) }}.</td>
+                                        <td >
+
+                                                {{ comment.date|date("m/d/Y") }}
+
+                                        </td>
+                                        <td class="avatar"> {{ comment.name }} </td>
+                                        <td><span class="name">{{ comment.message }}</span>   </td>
+
+                                        <td>
+                                            {% if comment.isValidate == 0 %}
+                                                <a href="{{ router.generate("validate_comment",{idCom:comment.id}) }}?once={{ once }}" class="fa fa-check fa-2x"></a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ router.generate("delete_comment",{idCom:comment.id}) }}?once={{ once }}" class="fa fa-trash fa-2x"></a>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-stats -->
+                    </div>
+                </div> <!-- /.card -->
+            </div>  <!-- /.col-lg-8 -->
+            <div class="col-12">
+                {% include 'Back/Views/pagination.html.twig' with {'nbPage': nbPage,'page': page,'link':router.generate("admin_comments",{action:action})~'/'} %}
+            </div>
+
+        </div> <!-- /.col-md-4 -->
+    </div>
+{% endblock %}

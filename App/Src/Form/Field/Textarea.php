@@ -11,15 +11,16 @@ class Textarea extends Field
     protected $type = 'text';
     public function getWidget()
     {
+
         return '<textarea 
                 name="'.$this->name.'"
                 class="form-control " 
-                type="text" id="id" 
+                type="text" 
                 '.$this->minLength.'
                 '.$this->maxLength.'
                 '.$this->cols.'
                 '.$this->rows.'
-                id="'.$this->id.'"
+                id="'.$this->name.'"
                 '.$this->required.'
                 '.$this->placeholder.'>'.$this->value.'</textarea>';
     }
