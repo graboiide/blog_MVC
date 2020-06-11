@@ -4,7 +4,6 @@
 namespace App\Src\Form;
 
 use App\Src\Form\Field\CheckBox;
-use App\Src\Form\Field\Hidden;
 use App\Src\Form\Field\Input;
 use App\Src\Form\Field\Textarea;
 
@@ -25,10 +24,10 @@ class BlogPostForm extends FormBuilder
            ->addValidator(Length::class,[
                "min"=>2,
                "max"=>30])
-           ->addField(Hidden::class,["name"=>"image"])
+
            ->addField(Upload::class,[
                "name"=>"imageFile",
-               "label"=>"choisissez une image"
+               "label"=>"choisisse dune image"
            ])
            ->addValidator(UploadValidate::class)
            ->addField(Textarea::class,[
@@ -44,12 +43,13 @@ class BlogPostForm extends FormBuilder
            ->addField(Textarea::class,[
                "name"=>'chapo',
                "cols"=>30,
-               "rows"=>4
+               "rows"=>4,
+               "label"=>"Chapo"
            ])
            ->addValidator(Length::class,[
                "min"=>10,
                "max"=>200])
-           ->addField(Input::class,["name"=>"slug"])
+
            ->addField(CheckBox::class,["name"=>"is_published","label"=>"Enregistrer en brouillon"])
 
        ;

@@ -1,0 +1,70 @@
+{% extends "Back/index.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-lg-10 ">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">
+                        {% if not myProfile %}
+                            Profil de {{ user.name }}
+                        {% else %}
+                            Mon profil
+                        {% endif %}
+                    </strong>
+                </div>
+                {% if myProfile %}<form method="post" action="" class="md-form" enctype="multipart/form-data"> {% endif %}
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-6 ">
+                                <img src="{{ assets }}{{ user.avatar }}" alt="avatar" style="width: 100%">
+                                {% if myProfile %}
+
+                                    <div class="form-group">
+                                        <div class="custom-file">
+
+                                            {{ form.widget("avatarFile")|raw }}
+                                            <label class="custom-file-label" for="uploadFile">Changer</label>
+                                        </div>
+
+                                    </div>
+
+
+                                {% endif %}
+                            </div>
+                            <!-- Credit Card -->
+                            <div class="col-md-12 col-lg-6 ">
+                                <div class="card-body">
+                                    <p>Nom de profil: {{ user.name }}</p>
+                                    <p>Email de contact: {{ user.email }}</p>
+                                    <p>Status: {{ user.role != null ? user.role : 'membre'  }}</p>
+                                    {% if myProfile %}
+                                        <p>Ma description:</p>
+
+                                            <div class="form-group">
+                                                {{ form.widget("description")|raw }}
+                                            </div>
+
+
+                                    {% else %}
+                                        <p>Description: {{ user.describe }}</p>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    {% if myProfile %}
+                    <input type="submit" name="action" class="btn btn-success" value="Sauvegarder">
+                </form>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

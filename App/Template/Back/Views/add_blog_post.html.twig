@@ -16,9 +16,9 @@
                     <form method="post" action="" class="md-form" enctype="multipart/form-data">
                         {{ form.widget("title")|raw }}
                         {{ form.widget("slug")|raw }}
-                        {{ form.widget("image")|raw }}
-                        <img src="{{  form.field('image').getValue }}" alt="">
-
+                        {% if blog is defined %}
+                            <img src="{{ assets }}{{  blog.image }}" alt="">
+                        {% endif %}
                         <div class="custom-file">
                             {{ form.widget("imageFile")|raw }}
                             <label class="custom-file-label" for="uploadFile">Choisissez une image</label>
@@ -32,12 +32,16 @@
 
 
                         {% if published == 1 %}
-                            <input type="submit" name="action" class="btn btn-warning" value="Brouillon">
+                            <input type="submit" name="brouillon" class="btn btn-warning" value="Enregistrer en brouillon">
                         {% else %}
                             <input type="submit" name="action" class="btn btn-primary" value="Publier">
                         {% endif %}
-                        {% if modified %}
-                            <input type="submit" name="action" class="btn btn-success" value="Modifier">
+                        {% if blog is defined %}
+                            {% if published == 2 %}
+                                <input type="submit" name="brouillon" class="btn btn-warning" value="Modifier le brouillon">
+                            {% else %}
+                                <input type="submit" name="action" class="btn btn-success" value="Modifier">
+                            {% endif %}
                         {% else %}
                             <input type="submit" name="action" class="btn btn-warning" value="Brouillon">
                         {% endif %}

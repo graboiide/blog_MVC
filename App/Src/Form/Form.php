@@ -50,7 +50,7 @@ class Form
         if($field->getErrors() != null)
             foreach ($field->getErrors() as $error)
                 $widget .= '<span class="error text-danger">'.$error.'</span><br>';
-        return $widget.' <div class="form-group">'.$field->createLabel().$field->getWidget().'</div>';
+        return $widget.' <div class="form-group">'.($field->getLabel() == null ? '' : $field->createLabel()).$field->getWidget().'</div>';
     }
 
 

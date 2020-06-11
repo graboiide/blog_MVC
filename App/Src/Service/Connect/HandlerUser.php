@@ -13,6 +13,7 @@ class HandlerUser
     private $request;
     private $manager;
 
+
     public function __construct(HttpRequest $request,Manager $manager)
     {
         $this->request = $request;
@@ -36,8 +37,7 @@ class HandlerUser
                 $userManager = $this->manager->getEntityManager(UserEntity::class);
                 $user = $userManager->getUserByToken($this->request->cookie('token'));
 
-                Session::set('connect',$user->getRole());
-                Session::set('user_id',$user->getId());
+                $this->createSessions($user);
                 $this->updateToken($user);
                 return true;
             }
@@ -62,9 +62,14 @@ class HandlerUser
      */
     public function connect(UserEntity $user)
     {
-        Session::set('connect',$user->getRole());
-        Session::set('user_id',$user->getId());
+        $this->createSessions($user);
         $this->updateToken($user);
 
+    }
+    private function createSessions(UserEntity $user)
+    {
+        Session::set('connect',$user->getRole());
+        Session::set('user_id',$user->getId());
+        Session::set('avatar',$user->getAvatar());
     }
 }

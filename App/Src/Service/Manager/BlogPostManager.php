@@ -20,9 +20,11 @@ class BlogPostManager extends BackManager
     {
         try {
             $select = implode(', blog_post.',$this->attributes);
-            $sql = 'SELECT '.$select.' FROM blog_post
+            $sql = 'SELECT '.$select.',user.name as author FROM blog_post
+            INNER JOIN user ON user.id = blog_post.user_id
         
-            WHERE is_published = 1 LIMIT :limit , :offset';
+            WHERE is_published = 1 ORDER BY id DESC LIMIT :limit , :offset';
+
             $request = $this->db->prepare($sql);
             $request->bindValue(':limit', $limit,PDO::PARAM_INT);
             $request->bindValue(':offset', $offset,PDO::PARAM_INT);
