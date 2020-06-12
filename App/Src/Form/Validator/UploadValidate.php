@@ -22,7 +22,7 @@ class UploadValidate extends Validator
         $imageFileType = strtolower(pathinfo($files['name'],PATHINFO_EXTENSION));
 
         if(!in_array($imageFileType,$this->typeAccepted)){
-            $this->listErrors['size'] = "Le fichier doit être une image jpg,png ou gif";
+            $this->listErrors['size'] = "Le fichier doit être au format ".implode(' ou ',$this->typeAccepted);
             return  false;
         }
         if($files['size']/1000000 >= $this->sizeMax){

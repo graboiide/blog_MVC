@@ -14,7 +14,7 @@ class BlogPostEntity extends Entity
     protected $slug;
     protected $date;
     protected $dateMaj;
-    protected $isPublished;
+    protected $isPublished = 0;
     protected $userId;
     /*
     * property not saving
@@ -212,11 +212,11 @@ class BlogPostEntity extends Entity
     }
 
     /**
-     * @param mixed $is_published
+     * @param mixed $isPublished
      */
-    public function setIsPublished($is_published): void
+    public function setIsPublished($isPublished): void
     {
-        $this->isPublished = $is_published;
+        $this->isPublished = $isPublished;
     }
 
     /**

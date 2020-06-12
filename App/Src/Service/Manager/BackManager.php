@@ -67,7 +67,7 @@ class BackManager extends Manager
 
         $set = implode(', ',$sql);
         $q = 'UPDATE '.$entity->extractTable().' SET '.$set.' WHERE id=:id';
-
+        
         try {
             $request = $this->db->prepare($q);
 

@@ -50,7 +50,28 @@ class Form
         if($field->getErrors() != null)
             foreach ($field->getErrors() as $error)
                 $widget .= '<span class="error text-danger">'.$error.'</span><br>';
-        return $widget.' <div class="form-group">'.$field->createLabel().$field->getWidget().'</div>';
+        return $widget.($field->getLabel() == null ? '' : $field->createLabel()).' <div class="form-group">'.$field->getWidget().'</div>';
+    }
+    public function error($nameWidget)
+    {
+        $errors = '';
+
+        /**
+         * @var Field $field
+         */
+        $field = $this->formBuilder->getField($nameWidget);
+
+        if($field->getErrors() != null){
+            foreach ($field->getErrors() as $error)
+                $errors .= '<span class="error text-danger">'.$error.'</span><br>';
+
+
+        }
+        
+        $field->resetErrors();
+        return $errors;
+
+
     }
 
 

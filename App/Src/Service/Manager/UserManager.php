@@ -15,11 +15,11 @@ class UserManager extends BackManager
 
         try {
             $select = implode(',user.',$this->attributes);
-            $sql = 'SELECT '.$select.',role.role FROM user INNER JOIN role ON user.id=role.user_id WHERE user.id = :id';
+            $sql = 'SELECT '.$select.',role.role FROM user LEFT JOIN role ON user.id=role.user_id WHERE user.id = :id';
             $request = $this->db->prepare($sql);
             $request->bindValue(':id',$id,PDO::PARAM_INT);
             $request->execute();
-            return $request->fetch();
+            return new UserEntity($request->fetch());
         }catch (Exception $e){
             print_r($e->getMessage() );
         }
