@@ -11,11 +11,13 @@ use App\Src\Form\UserForm;
 use App\Src\Security\CsrfSecurity;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
+use App\Src\Service\Entity\ConfigEntity;
 use App\Src\Service\Entity\UserEntity;
 use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\HTTP\Session;
 use App\Src\Service\Manager\BlogPostManager;
 use App\Src\Service\Manager\CommentManager;
+use App\Src\Service\Manager\ConfigManager;
 use App\Src\Service\Manager\UserManager;
 use App\Src\Service\Upload\UploadFile;
 use DateTime;
@@ -253,11 +255,30 @@ class AdminController extends backController
         $this->render('Back/Views/profile.html.twig',["form"=>$form,"user"=>$user,"myProfile"=>$myProfile]);
     }
     public function config(){
+        /**
+         * @var ConfigManager $configManager
+         */
+        $configManager = $this->manager->getEntityManager(ConfigEntity::class);
+        //config modifier
+        if($this->request->method()=='POST'){
+            $upload= new UploadFile();
+            $config = new ConfigEntity(array_merge($this->request->post(),["id"=>1]));
+            $config->setPicture($upload->setFile('imageFile')->saveFile());
+            $config->setCv($upload->setFile('cvFile')->saveFile());
+        }//config charger
+        else
+            $config = $configManager->getConfig();
 
-        $builderForm = new ConfigForm();
+        $builderForm = new ConfigForm($config);
         $builderForm->buildForm();
         $form = $builderForm->createForm($this->request);
-        $this->render('Back/Views/config.html.twig',["form"=>$form]);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $configManager->save($config);
+            $this->response->redirect('/admin/config');
+        }
+        $this->render('Back/Views/config.html.twig',["form"=>$form,"config"=>$config]);
     }
 
     private function notify()

@@ -16,16 +16,19 @@
                                     <div class="form-group">
                                         {{ form.widget("name")|raw }}
                                     </div>
+                                    <i class="fa far fa-save"></i><a href="{{ assets }}{{ config.cv }}"> {{ config.cv }} </a>
                                     <div class="form-group">
+                                        {{ form.error('cvFile')|raw }}
                                         <div class="custom-file">
                                             {{ form.widget("cvFile")|raw }}
                                             <label class="custom-file-label" for="uploadFile">Télécharger le CV</label>
                                         </div>
 
                                     </div>
+                                    <img src="{{ assets }}{{ config.picture }}" alt="">
                                     <div class="form-group">
                                         <div class="custom-file">
-                                            {{ form.widget("cvFile")|raw }}
+                                            {{ form.widget("imageFile")|raw }}
                                             <label class="custom-file-label" for="uploadFile">Télécharger une photo</label>
                                         </div>
                                     </div>
@@ -35,7 +38,7 @@
                                     <div class="form-group">
                                         {{ form.widget("email")|raw }}
                                     </div>
-
+                                    <input type="submit" name="action" class="btn btn-primary" value="Mettre à jour">
                                 </form>
 
                             </div>

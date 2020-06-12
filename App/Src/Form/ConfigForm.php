@@ -4,7 +4,9 @@
 namespace App\Src\Form;
 
 use App\Src\Form\Field\Input;
+use App\Src\Form\Field\Textarea;
 use App\Src\Form\Field\Upload;
+use App\Src\Form\Validator\UploadValidate;
 
 class ConfigForm extends FormBuilder
 {
@@ -18,12 +20,16 @@ class ConfigForm extends FormBuilder
            ->addField(Upload::class,[
                "name"=>"cvFile"
            ])
+           ->addValidator(UploadValidate::class,[
+               "typeAccepted"=>['pdf']
+           ])
            ->addField(Upload::class,[
                "name"=>"imageFile"
            ])
-           ->addField(Input::class,[
+           ->addField(Textarea::class,[
                "name"=>"presentation",
-               "label"=>"Presentation"
+               "label"=>"Presentation",
+               "rows"=> 5
            ])
            ->addField(Input::class,[
                "name"=>"email",
