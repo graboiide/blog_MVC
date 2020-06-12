@@ -45,7 +45,6 @@ class BackController
         //on recupere la liste des controllers protégé
         $protected = Config::getVar('connect protected_controllers');
         //partie protégé
-
             //on verifie qu'il est connecté ou que la variable session a le bon role
         if(array_key_exists($class,$protected) && (!$this->userHandler->isConnected() || Session::get('connect') != $protected[$class])){
             $response = new HttpResponse();

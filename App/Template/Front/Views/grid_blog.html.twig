@@ -20,7 +20,7 @@
                     </a>
                     <p>{{ blog.chapo }}{{ cate }}</p>
                     <ul class="blog-info-link">
-                        <li><a href="#"><i class="fa fa-user"></i> Par Greg</a></li>
+                        <li><a href="#"><i class="fa fa-user"></i> Par {{ blog.author }}</a></li>
                         <li><a href="{{ router.generate('show',{"id":blog.id}) }}#comments"><i class="fa fa-comments"></i> {{ blog.nbComment }} {{ blog.nbComment > 1 ? 'commentaires' : 'commentaire' }}</a></li>
                     </ul>
                 </div>

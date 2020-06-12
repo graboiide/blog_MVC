@@ -9,9 +9,24 @@ class UserEntity extends Entity
     protected $avatar;
     protected $password;
     private $role;
+    protected $description;
     private $token;
 
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
 
 
 

@@ -1,26 +1,36 @@
 {
-  "/blog/[i:page]?": {
+  "/": {
     "module": "home",
+    "controller": "home",
+    "name": "accueil"
+  },
+  "/blog/[i:page]?": {
+    "module": "blog",
     "controller": "home",
     "name": "home"
   },
+  "/contact": {
+    "module": "contact",
+    "controller": "home",
+    "name": "contact"
+  },
   "/admin/add_blog": {
     "module": "addBlogPost",
-    "controller": "blog",
+    "controller": "admin",
     "name": "addBlog"
   },
   "/admin/add_blog/[i:idBlog]": {
     "module": "updateBlogPost",
-    "controller": "blog",
+    "controller": "admin",
     "name": "modifBlog"
   },
   "/admin/delete_blog/[i:idBlog]": {
     "module": "deleteBlogPost",
-    "controller": "blog",
+    "controller": "admin",
     "name": "deleteBlog"
   },
   "/page-[i:page]": {
-    "module": "home",
+    "module": "blog",
     "controller": "home",
     "name": "home_"
   },
@@ -29,6 +39,11 @@
     "controller": "admin",
     "name": "admin_home"
   },
+  "/admin/config": {
+    "module": "config",
+    "controller": "admin",
+    "name": "admin_config"
+  },
   "/show-[i:id]": {
     "module": "show",
     "controller": "home",
@@ -36,23 +51,23 @@
   },
   "/admin/postblogs/[i:page]?": {
     "module": "listBlogPost",
-    "controller": "blog",
+    "controller": "admin",
     "name": "admin_postblogs"
   },
 
   "/admin/comments/[a:action]/[i:page]?/[i:idBlog]?": {
     "module": "comments",
-    "controller": "comment",
+    "controller": "admin",
     "name": "admin_comments"
   },
   "/admin/delete_com/[i:idCom]": {
     "module": "deleteComment",
-    "controller": "comment",
+    "controller": "admin",
     "name": "delete_comment"
   },
   "/admin/validate_com/[i:idCom]": {
     "module": "validateComment",
-    "controller": "comment",
+    "controller": "admin",
     "name": "validate_comment"
   },
   "/admin/connect": {
@@ -62,14 +77,13 @@
   },
   "/admin/inscription": {
     "module": "inscription",
-    "controller": "admin",
+    "controller": "home",
     "name": "admin_inscription"
   },
-  "/admin/profile": {
-    "module": "profile",
+  "/profile/[i:idUser]?": {
+    "module": "profileUser",
     "controller": "admin",
-    "name": "admin_profile",
-    "method": "GET"
+    "name": "admin_profile"
   },
   "/admin/faker": {
     "module": "faker",

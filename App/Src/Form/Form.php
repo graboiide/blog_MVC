@@ -8,6 +8,7 @@ use App\Src\Form\Field\Field;
 use App\Src\Form\Field\Hidden;
 use App\Src\Security\CsrfSecurity;
 use App\Src\Service\HTTP\HttpRequest;
+use App\Src\Service\HTTP\Session;
 
 
 class Form
@@ -45,12 +46,34 @@ class Form
         //récupere le field dans le builder
         $field = $this->formBuilder->getField($name);
         $widget='';
+
         $widget .= $this->addCsrfProtection();
 
         if($field->getErrors() != null)
             foreach ($field->getErrors() as $error)
                 $widget .= '<span class="error text-danger">'.$error.'</span><br>';
-        return $widget.' <div class="form-group">'.$field->createLabel().$field->getWidget().'</div>';
+        return $widget.($field->getLabel() == null ? '' : $field->createLabel()).' <div class="form-group">'.$field->getWidget().'</div>';
+    }
+    public function error($nameWidget)
+    {
+        $errors = '';
+
+        /**
+         * @var Field $field
+         */
+        $field = $this->formBuilder->getField($nameWidget);
+
+        if($field->getErrors() != null){
+            foreach ($field->getErrors() as $error)
+                $errors .= '<span class="error text-danger">'.$error.'</span><br>';
+
+
+        }
+        
+        $field->resetErrors();
+        return $errors;
+
+
     }
 
 
@@ -88,19 +111,22 @@ class Form
     }
 
     /**
+     * Ajout de validation par token
      * @return string
      */
     private function addCsrfProtection()
     {
-
         if(!$this->csrf){
             $this->csrf = true;
-            $token =CsrfSecurity::generateToken();
+            if(!$this->isSubmitted())
+                $token = CsrfSecurity::generateToken();
+            else
+                $token = $this->request->post('token');
+
             $field = new Hidden(["name"=>"token","value"=>$token]);
             return $field->getWidget();
         }
-        else
-            return '';
+        return '';
     }
     /**
      * Boucle les champs vérifie leurs validators et retourne tous les fields avec des erreurs
@@ -109,7 +135,12 @@ class Form
      */
     public function isValid()
     {
+
         $valid = true;
+        if(!CsrfSecurity::isValid($this->request->post('token'))){
+            echo 'Csrf error';
+            return false;
+        }
         /**
          * @var Field $field
          */
@@ -120,10 +151,7 @@ class Form
                  $this->fieldsError[]=$field;
              }
         }
-        if(!CsrfSecurity::isValid($this->request->post('token'))){
-            $valid = false;
-            echo 'Csrf error';
-        }
+
 
 
 

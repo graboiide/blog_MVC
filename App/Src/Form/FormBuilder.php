@@ -13,7 +13,7 @@ class FormBuilder
     private $fields;
     private $entity;
 
-    public function __construct(Entity $entity)
+    public function __construct(Entity $entity = null)
     {
         $this->entity = $entity;
 
@@ -72,8 +72,10 @@ class FormBuilder
     }
     public function createForm(HttpRequest $request)
     {
-        //dd($request->post());
-        $attributesEntity =array_merge($this->entity->getProperties(),(array)$request->post());
+       if(!is_null($this->entity))
+            $attributesEntity =array_merge((array)$this->entity->getProperties(),(array)$request->post());
+       else
+           $attributesEntity = (array)$request->post();
 
         /**
          * @var Field $field

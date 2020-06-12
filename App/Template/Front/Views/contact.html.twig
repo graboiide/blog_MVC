@@ -1,0 +1,28 @@
+{% extends "Front/base.html.twig" %}
+{% block title %} Me contacter {% endblock %}
+{% block headerTitle %} contact {% endblock %}
+{% block blog %}
+    <section class="container">
+
+        <div class="row mt-5">
+            <div class="col-md-2 col-sm-1"></div>
+            <div class="col-md-8 col-sm-11 mt-5">
+                <h1 class="text-center" style="color: #f04e3c">Me contacter</h1>
+                <form class="" method="post"  id="commentForm" action="">
+                    {{ form.widget('name')|raw }}
+                    {{ form.widget('prenom')|raw }}
+                    {{ form.widget('tel')|raw }}
+                    {{ form.widget('email')|raw }}
+                    {{ form.widget('message')|raw }}
+                    <div class="form-group">
+                        <button type="submit" class="button button-contactForm btn_1 boxed-btn">Envoyer</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+
+
+    </section>
+{% endblock %}

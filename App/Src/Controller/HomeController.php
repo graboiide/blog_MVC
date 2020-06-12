@@ -2,29 +2,28 @@
 
 namespace App\Src\Controller;
 
-use App\App;
 use App\Src\Form\CommentForm;
 use App\Src\Form\ConnectForm;
+use App\Src\Form\ContactForm;
 use App\Src\Form\Form;
+use App\Src\Form\InscriptionForm;
 use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
+use App\Src\Service\Entity\ConfigEntity;
+use App\Src\Service\Entity\ContactEntity;
 use App\Src\Service\Entity\UserEntity;
-use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\Manager\BlogPostManager;
 use App\Src\Service\Manager\CommentManager;
+use App\Src\Service\Manager\ConfigManager;
 use App\Src\Service\Manager\UserManager;
+use App\Src\Service\Upload\Upload;
 use DateTime;
 
 class HomeController extends backController
 {
 
-    public function __construct(App $app, $action, HttpRequest $request)
-    {
-        parent::__construct($app, $action, $request);
-        $this->cate();
-    }
 
-    public function home()
+    public function blog()
     {
         //on évite un if pour rien
         $page = max(0,(int)$this->request->get('page')-1);
@@ -106,17 +105,71 @@ class HomeController extends backController
 
         $this->render('Back/Views/connect.html.twig',["form"=>$form]);
     }
-    private function cate()
+
+    public function inscription()
+    {
+        /**
+         * @var UserManager $userManager
+         */
+        if($this->request->method() === 'POST'){
+            $user = new UserEntity($this->request->post());
+            $user->setPassword(sha1($this->request->post('password')));
+        }
+        else
+            $user = new UserEntity();
+        $builderForm = new InscriptionForm($user);
+        $builderForm->buildForm();
+
+        $form = $builderForm->createForm($this->request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            /**
+             * @var UserManager $managerUser
+             */
+            $managerUser = $this->manager->getEntityManager(UserEntity::class);
+            $idUser = $managerUser->save($user);
+            $managerUser->createToken(uniqid(),$idUser);
+            $this->response->redirect("/blog");
+
+        }
+
+
+        $this->render('Back/Views/inscription.html.twig',["form"=>$form]);
+    }
+    public function contact()
     {
 
-        $this->app->getRenderer()->addGlobal('_categories',[
-            ['title'=>'Jeux vidéo','nb'=>15],
-            ['title'=>'Loisir','nb'=>5],
-            ['title'=>'Sport','nb'=>6],
-            ['title'=>'Autres','nb'=>2]
-        ]);
+        $builderForm = new ContactForm();
+        $builderForm->buildForm();
 
+        $form = $builderForm->createForm($this->request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //mail('graboiide@gmail.com', 'mail test', 'test de message');
+
+        }
+
+
+        $this->render('Front/Views/contact.html.twig',["form"=>$form]);
     }
+    public function home()
+    {
+        /**
+         * @var ConfigManager $manager
+         */
+        $manager = $this->manager->getEntityManager(ConfigEntity::class);
+        $builderForm = new ContactForm();
+        $builderForm->buildForm();
+
+        $form = $builderForm->createForm($this->request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //mail('graboiide@gmail.com', 'mail test', 'test de message');
+
+        }
+        $this->render('Front/Views/home.html.twig',["config"=>$manager->getConfig(),"form"=>$form]);
+    }
+
 
 
 

@@ -1,0 +1,88 @@
+{% extends "Front/home.html.twig" %}
+{% block title %} Accueil {% endblock %}
+{% block headerTitle %} {{ blogs.target.title }} {% endblock %}
+{% block home %}
+
+    <div class="slider-area ">
+        <div class="slider-active">
+            <!-- Single Slider -->
+            <div class="single-slider slider-height d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-7 col-lg-7 col-md-8">
+                            <div class="hero__caption">
+                                <span data-animation="fadeInUp" data-delay=".4s">{{ config.name }}</span>
+                                <h1 data-animation="fadeInUp" data-delay=".6s">{{ config.presentation }}</h1>
+                                <!-- Hero-btn -->
+                                <div class="hero__btn">
+                                    <a href="{{ config.cv }}" class="btn hero-btn"  data-animation="fadeInLeft" data-delay=".8s">Télécharger mon cv</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hero Man Img -->
+                <div class="hero-man">
+                    <img src="{{ assets }}{{ config.picture }}" alt="">
+                </div>
+            </div>
+            <!-- Single Slider -->
+            <div class="single-slider slider-height d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-7 col-lg-7 col-md-8">
+                            <div class="hero__caption">
+                                <span data-animation="fadeInUp" data-delay=".4s">{{ config.name }}</span>
+                                <h1 data-animation="fadeInUp" data-delay=".6s">{{ config.presentation }}</h1>
+                                <!-- Hero-btn -->
+                                <div class="hero__btn">
+                                    <a href="{{ router.generate("home") }}" class="btn hero-btn"  data-animation="fadeInLeft" data-delay=".8s">Voir mon blog</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hero Man Img -->
+                <div class="hero-man">
+                    <img src="{{ config.picture }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="about-area about1 section-padding30">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class=" col-12">
+                    <div class="about-caption2 mb-50">
+                        <h3>Me contacter</h3>
+
+                        <form class="form-contact comment_form" method="post"  id="commentForm" action="">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    {{ form.widget('name')|raw }}
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    {{ form.widget('prenom')|raw }}
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    {{ form.widget('email')|raw }}
+                                </div>
+                                <div class="col-12">
+                                    {{ form.widget('message')|raw }}
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn hero-btn">Envoyer</button>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--? Brand Shape  -->
+
+    </section>
+
+{% endblock %}
