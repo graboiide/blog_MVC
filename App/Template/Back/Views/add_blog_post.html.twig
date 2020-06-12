@@ -16,9 +16,12 @@
                     <form method="post" action="" class="md-form" enctype="multipart/form-data">
                         {{ form.widget("title")|raw }}
                         {{ form.widget("slug")|raw }}
+
+
                         {% if blog is defined %}
-                            <img src="{{ assets }}{{  blog.image }}" alt="">
+                            <img src="{{ assets }}{{ form.field('image').getValue() }}" alt="">
                         {% endif %}
+                        {{ form.widget("image")|raw }}
                         <div class="custom-file">
                             {{ form.widget("imageFile")|raw }}
                             <label class="custom-file-label" for="uploadFile">Choisissez une image</label>

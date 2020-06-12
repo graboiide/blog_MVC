@@ -36,7 +36,8 @@ class ContactForm extends FormBuilder
             ->addValidator(Mail::class)
             ->addField(Textarea::class,[
                 "name"=>"message",
-                "label"=>"Votre message"
+                "label"=>"Votre message",
+                "rows"=>6
             ])
 
         ;

@@ -107,6 +107,7 @@ class AdminController extends backController
         $form = $formBuilder->createForm($this->request);
 
         if($form->isSubmitted() && $form->isValid() ){
+
             //upload fichier
             $upload = new UploadFile();
             $blog->setImage($upload->setFile('imageFile')->saveFile());

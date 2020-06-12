@@ -1,6 +1,11 @@
 {
-  "/blog/[i:page]?": {
+  "/": {
     "module": "home",
+    "controller": "home",
+    "name": "accueil"
+  },
+  "/blog/[i:page]?": {
+    "module": "blog",
     "controller": "home",
     "name": "home"
   },
@@ -25,7 +30,7 @@
     "name": "deleteBlog"
   },
   "/page-[i:page]": {
-    "module": "home",
+    "module": "blog",
     "controller": "home",
     "name": "home_"
   },

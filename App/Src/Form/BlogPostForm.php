@@ -4,6 +4,7 @@
 namespace App\Src\Form;
 
 use App\Src\Form\Field\CheckBox;
+use App\Src\Form\Field\Hidden;
 use App\Src\Form\Field\Input;
 use App\Src\Form\Field\Textarea;
 
@@ -51,6 +52,8 @@ class BlogPostForm extends FormBuilder
                "max"=>200])
 
            ->addField(CheckBox::class,["name"=>"is_published","label"=>"Enregistrer en brouillon"])
+           ->addField(Hidden::class,["name"=>"image"])
+
 
        ;
 

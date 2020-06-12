@@ -14,6 +14,7 @@ class CsrfSecurity
     static public function generateToken()
     {
         $token = uniqid();
+       //dd('generate token');
         Session::set('token',$token);
         return $token;
     }
@@ -28,6 +29,7 @@ class CsrfSecurity
         if($token != null && Session::get('token') == $token){
             return true;
         }
+        //Session::unset('token');
 
         return false;
     }

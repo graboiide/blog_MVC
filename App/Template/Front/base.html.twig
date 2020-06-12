@@ -1,26 +1,8 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %} {% endblock %}</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ assets }}img/favicon.ico">
-
-    <!-- CSS here -->
-    <link rel="stylesheet" href="{{ assets }}css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ assets }}css/owl.carousel.min.css">
-    <link rel="stylesheet" href="{{ assets }}css/slicknav.css">
-    <link rel="stylesheet" href="{{ assets }}css/animate.min.css">
-    <link rel="stylesheet" href="{{ assets }}css/magnific-popup.css">
-    <link rel="stylesheet" href="{{ assets }}css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="{{ assets }}css/themify-icons.css">
-    <link rel="stylesheet" href="{{ assets }}css/themify-icons.css">
-    <link rel="stylesheet" href="{{ assets }}css/slick.css">
-    <link rel="stylesheet" href="{{ assets }}css/nice-select.css">
-    <link rel="stylesheet" href="{{ assets }}css/style.css">
-    <link rel="stylesheet" href="{{ assets }}css/responsive.css">
+{% include 'Front/header.html.twig' %}
 </head>
 <body>
 
@@ -94,77 +76,7 @@
         </div>
     </section>
 </main>
-<footer>
-    <!--? Footer Start-->
-    <div class="footer-area footer-bg">
-        <div class="container">
-            <div class="footer-top footer-padding">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8">
-                        <div class="single-footer-caption mb-50">
-                            <!-- logo -->
-                            <div class="footer-logo">
-                                <a href="{{ router.generate("home") }}"><img src="{{ asset }}img/logo.png" alt=""></a>
-                            </div>
-                            <div class="footer-tittle">
-                                <div class="footer-pera">
-                                    <p class="info1">Blog sur le developpeement web</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-5 col-sm-6">
-                        <div class="single-footer-caption mb-50">
-                            <div class="footer-tittle">
-                                <h4>Navigation</h4>
-                                <ul>
-                                    <li><a href="#">Accueil</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-5 col-sm-6">
-                        <div class="single-footer-caption mb-50">
-                            <div class="footer-tittle">
-                                <h4>Lien utiles</h4>
-                                <ul>
-                                    <li><a href="{{ router.generate("admin_home") }}">Administration</a></li>
-                                    <li><a href="#">Terms & Conditions</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="row d-flex justify-content-between align-items-center">
-                    <div class="col-xl-9 col-lg-8">
-                        <div class="footer-copy-right">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4">
-                        <!-- Footer Social -->
-                        <div class="footer-social f-right">
-                            <span>Follow Us</span>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fas fa-globe"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End-->
-</footer>
+{% include 'Front/footer.html.twig' %}
 <!-- Scroll Up -->
 <div id="back-top" >
     <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
