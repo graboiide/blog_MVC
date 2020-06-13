@@ -9,7 +9,7 @@ class UploadFile
     private $fileName;
     private $path ;
 
-    public function __construct($path = "uploads/")
+    public function __construct($path = "App/Public/uploads/")
     {
 
         $this->path = $path;
@@ -30,7 +30,7 @@ class UploadFile
 
         if(isset($_FILES)){
             move_uploaded_file($_FILES[$this->fileName]["tmp_name"], $target_file);
-            return $target_file;
+            return '/'.$target_file;
         }
         return null;
     }

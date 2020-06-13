@@ -25,7 +25,7 @@ use Exception;
 use Faker;
 
 
-class AdminController extends backController
+class AdminController extends BackController
 {
     public function __construct(App $app, $action, HttpRequest $request)
     {
@@ -319,50 +319,7 @@ class AdminController extends backController
         }
         $this->app->getRenderer()->addGlobal("nbNotify",$nbNotify);
     }
-    /*
-    public function faker()
-    {
 
-        $manager = $this->manager->getEntityManager(BlogPostEntity::class);
-        $faker = Faker\Factory::create();
-        for ($i=0 ; $i<15 ; $i++){
-            dump("ajout blog");
-            $date = $faker->dateTimeBetween('-1 years','now');
-            $dataBlogPost = [
-                "contain" => $faker->sentence(mt_rand(30, 100)) ,
-                "chapo" => $faker->sentence(mt_rand(5, 20)),
-                "image" => 'https://picsum.photos/840/480?random='.$i,
-                "title" => $faker->sentence(mt_rand(1, 7)),
-                "slug" => $faker->slug,
-                "date" => $date->format("Y-m-d"),
-                "is_published" => 1,
-                'user_id'=>1
-            ];
-            $blog = new BlogPostEntity($dataBlogPost);
-            $idBlog = $manager->save($blog);
-            dump($blog);
-            // Les commentaires
-            $manager = $this->manager->getEntityManager(CommentEntity::class);
-            $nbComments = mt_rand(0,8);
-            dump("ajout de ".$nbComments." commentaires");
-            for ($j=0 ; $j<$nbComments ; $j++){
-                $date = $faker->dateTimeBetween('-1 years','now');
-                $dataComment = [
-                    "date" =>$date->format("Y-m-d H:m"),
-                    "message" => $faker->sentence(mt_rand(5, 20)),
-                    "is_validate" => 1,
-                    "post_blog_id" => $idBlog,
-                    "name" => $faker->name
-                ];
-                $comment = new CommentEntity($dataComment);
-                $manager->save($comment);
-            }
-        }
-
-
-        $this->render('Front/Views/home.html.twig');
-    }
-    */
 
 
 }

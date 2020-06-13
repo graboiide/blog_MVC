@@ -1,6 +1,6 @@
 {
   "twig": {
-    "template_path": "../Template/"
+    "template_path": "App/Template/"
   },
   "blog_post": {
     "number_home": 5,
@@ -8,7 +8,7 @@
     "order": "by_date"
   },
   "router": {
-    "route_path": "../Config/routes.json",
+    "route_path": "App/Config/routes.json",
     "file_type": "json"
   },
   "database": {
@@ -22,9 +22,7 @@
   },
   "connect": {
     "protected_controllers": {
-      "AdminController": "admin",
-      "BackController": "admin",
-      "CommentController": "admin"
+      "AdminController": "admin"
     },
     "page_connect": "admin/connect"
   }

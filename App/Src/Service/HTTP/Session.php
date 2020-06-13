@@ -17,7 +17,10 @@ class Session
     }
     static public function get($name)
     {
-        return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
+        if($name != null)
+            return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
+        else
+            return $_SESSION;
     }
     static public function unset($name)
     {

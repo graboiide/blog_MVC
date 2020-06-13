@@ -1,0 +1,26 @@
+{% if  flash is defined %}
+    {% if flash.type == 'success' %}
+        <div style="background-color: #3d9e54; color: white; " class="alert p-2 text-center fixed-top">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flash.message }}
+        </div>
+    {% endif %}
+    {% if flash.type == 'error' %}
+        <div style="background-color: #f04e3c; color: white; " class="alert p-2 text-center fixed-top">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flash.message }}
+        </div>
+    {% endif %}
+    {% if flash.type == 'warning' %}
+        <div style="background-color: #d29839; color: white; " class="alert p-2 text-center fixed-top">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flash.message }}
+        </div>
+    {% endif %}
+    {% if flash.type == 'notify' %}
+        <div style="background-color: #5092d1; color: white; " class="alert p-2 text-center fixed-top">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flash.message }}
+        </div>
+    {% endif %}
+{% endif %}

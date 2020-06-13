@@ -12,6 +12,8 @@ use App\Src\Service\Entity\CommentEntity;
 use App\Src\Service\Entity\ConfigEntity;
 use App\Src\Service\Entity\ContactEntity;
 use App\Src\Service\Entity\UserEntity;
+use App\Src\Service\FlashBag\FlashBag;
+use App\Src\Service\HTTP\Session;
 use App\Src\Service\Manager\BlogPostManager;
 use App\Src\Service\Manager\CommentManager;
 use App\Src\Service\Manager\ConfigManager;
@@ -19,7 +21,7 @@ use App\Src\Service\Manager\UserManager;
 use App\Src\Service\Upload\Upload;
 use DateTime;
 
-class HomeController extends backController
+class HomeController extends BackController
 {
 
 
@@ -54,7 +56,10 @@ class HomeController extends backController
          */
         $blogManager = $this->manager->getEntityManager(BlogPostEntity::class);
         $blogs = $blogManager->findBlogsForNav($this->request->get('id'));
-
+        /**
+         * @var UserManager $userManager
+         */
+        $userManager = $this->manager->getEntityManager(UserEntity::class);
         /**
          * @var CommentManager $commentManager
          */
@@ -77,13 +82,15 @@ class HomeController extends backController
          */
         $form = $formBuilder->createForm($this->request);
 
+
         if($form->isSubmitted() && $form->isValid()){
             $commentManager->save($comment);
+           FlashBag::set('Votre méssage à été ajouté et soumis à la validation');
             $this->response->redirect($this->request->uri());
         }
-
-        $this->render('Front/views/show.html.twig',["blogs"=>$blogs,"comments"=>$comments,"form"=>$form]);
+        $this->render('Front/Views/show.html.twig',["blogs"=>$blogs,"comments"=>$comments,"form"=>$form,'author'=>$userManager->getUser($blogs["target"]->getUserId())]);
     }
+
     public function connectUser(){
         $user = new UserEntity();
         $builderForm = new ConnectForm($user);
@@ -97,10 +104,16 @@ class HomeController extends backController
             $user = $manager->getUserByName($this->request->post('name'));
 
             if($user->getPassword() === sha1($this->request->post('password'))){
+                FlashBag::set('Vous êtes connecté','success');
                 $this->userHandler->connect($user);
                 $this->response->redirect("/blog");
+
+            }else{
+                FlashBag::set('Erreur de login','error');
             }
 
+        }else{
+            FlashBag::set('Erreur d\'identification, veuillez réessayer','error');
         }
 
         $this->render('Back/Views/connect.html.twig',["form"=>$form]);

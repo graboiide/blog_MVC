@@ -5,7 +5,7 @@
 {% include 'Front/header.html.twig' %}
 </head>
 <body>
-
+{% include 'Front/flash.html.twig' %}
 <header>
     <!--? Header Start -->
     <div class="header-area header-transparent">
@@ -33,7 +33,7 @@
                                 </nav>
                             </div>
                             <div class="header-right-btn f-right d-none d-lg-block ml-20">
-                                <a href="../../../../myphotography/myphotography/contact.html" class="btn header-btn">Me contacter</a>
+                                <a href="/#contact" class="btn header-btn">Me contacter</a>
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,8 @@
     <section class="blog_area section-padding">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 mb-5 mb-lg-0">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10 col-md-12 mb-5 mb-lg-0">
     <!--================Blog Area =================-->
                         {% block blog %}{% endblock %}
     <!--================Blog Area =================-->
