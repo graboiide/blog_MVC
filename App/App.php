@@ -6,6 +6,7 @@ use AltoRouter;
 use App\Src\Controller\backController;
 use App\Src\Service\Config;
 
+use App\Src\Service\FlashBag\FlashBag;
 use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\Renderer\TwigRenderer;
 use Exception;
@@ -66,6 +67,8 @@ class App
      */
     public function getController()
     {
+        $this->addGlobal();
+
         $pathFileRoutes = Config::getVar("router route_path");
         if(is_file($pathFileRoutes))
 
@@ -82,7 +85,9 @@ class App
         {
             $request = new HttpRequest();
             $request->paramsRoute($match['params']);
-            $controllerClass = '\App\Src\Controller\\'.explode('#',$match['target'])[0].'Controller';
+            $controllerClass = '\App\Src\Controller\\'.explode('#',ucfirst($match['target']))[0].'Controller';
+
+
             return new $controllerClass($this,explode('#',$match['target'])[1],$request);
         }
 
@@ -90,6 +95,13 @@ class App
         return null;
 
 
+    }
+    private function addGlobal()
+    {
+        $this->getRenderer()
+            ->addGlobal('router',$this->getRouter())
+            ->addGlobal('assets','/App/Public/')
+            ->addGlobal('flashBag',new FlashBag());
     }
 
 }

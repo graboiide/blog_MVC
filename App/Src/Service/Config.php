@@ -13,7 +13,7 @@ class Config
     static public function getVar($targetVar)
     {
 
-            $json = json_decode(file_get_contents("../Config/config.json"),true);
+            $json = json_decode(file_get_contents("App/Config/config.json"),true);
 
         $pathToValue = explode(' ',$targetVar);
         if(count($pathToValue) === 2)

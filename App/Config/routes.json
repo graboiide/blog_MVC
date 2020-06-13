@@ -87,8 +87,7 @@
   },
   "/admin/faker": {
     "module": "faker",
-    "controller": "admin",
-    "name": "admin_faker",
-    "method": "GET"
+    "controller": "faker",
+    "name": "admin_faker"
   }
 }

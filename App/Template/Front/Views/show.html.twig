@@ -12,7 +12,12 @@
             <div class="blog_details">
                 <h2 style="color: #2d2d2d;">{{ blogs.target.title }} </h2>
                 <ul class="blog-info-link mt-3 mb-4">
-                    <li><a href="#"><i class="fa fa-user"></i> Par greg</a></li>
+                    <li><i class="fa fa-user"></i> Par greg  </li>
+                    {% if (blogs.target.dateMaj is defined) %}
+                        <i class="fas fa-calendar-alt"></i><span style="color: #f04e3c"> Derniere maj le {{ blogs.target.dateMaj|date("d-m-Y") }}</span>
+                    {% else %}
+                        <i class="fas fa-calendar-alt"></i> Publié le {{ blogs.target.date|date("d-m-Y") }}
+                    {% endif %}
 
                 </ul>
                 <p class="excert">
@@ -28,7 +33,7 @@
                     <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
                         {% if blogs.prev %}
                         <div class="thumb">
-                            <a href="#">
+                            <a href="{{ router.generate('show',{"id":blogs.prev.id}) }}">
                                 <img class="img-fluid" src="{{ blogs.prev.image }}" alt="" style="max-width: 100px">
                             </a>
                         </div>
@@ -59,7 +64,7 @@
                             </a>
                         </div>
                         <div class="thumb">
-                            <a href="#">
+                            <a href="{{ router.generate('show',{"id":blogs.next.id}) }}">
                                 <img class="img-fluid" src="{{ blogs.next.image }}" alt="" style="max-width: 100px">
                             </a>
                         </div>
@@ -70,18 +75,17 @@
         </div>
         <div class="blog-author">
             <div class="media align-items-center">
-                <img src="{{ assets }}img/blog/author.png" alt="">
+                <img src="{{ author.avatar }}" alt="">
                 <div class="media-body">
-                    <a href="#" >
-                        <h4 style="color: #f04e3c ">Greg</h4>
-                    </a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Consequuntur eos expedita ipsum iure laborum modi nisi,
-                        praesentium qui reprehenderit repudiandae, ullam veniam vero! Ad adipisci ex nemo! Aliquam illo, velit!
+
+                        <h4 style="color: #f04e3c ">{{ author.name }}</h4>
+
+                    <p>{{ author.description }}
                     </p>
                 </div>
             </div>
         </div>
+
 
         <div class="comments-area" id="comments">
             {% set nbComments = comments|length %}
@@ -113,7 +117,8 @@
 
             {% endfor %}
         </div>
-        <div class="comment-form">
+
+        <div class="comment-form" id="comments">
             <h4>Laisser un commentaire</h4>
             <form class="form-contact comment_form" method="post"  id="commentForm" action="#comments">
                 <div class="row">

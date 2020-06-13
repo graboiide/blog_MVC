@@ -19,7 +19,7 @@
 
 
                         {% if blog is defined %}
-                            <img src="{{ assets }}{{ form.field('image').getValue() }}" alt="">
+                            <img src="{{ form.field('image').getValue() }}" alt="">
                         {% endif %}
                         {{ form.widget("image")|raw }}
                         <div class="custom-file">

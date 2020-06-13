@@ -48,7 +48,7 @@ class BlogPostManager extends BackManager
             $select = implode(', blog_post.',$this->attributes);
             $sql = ' SELECT '.$select.', user.name as author, COUNT(comment.message) AS nbComment FROM blog_post 
             INNER JOIN user ON blog_post.user_id = user.id
-            LEFT JOIN comment ON comment.post_blog_id = blog_post.id
+            LEFT JOIN comment ON comment.post_blog_id = blog_post.id 
             GROUP BY blog_post.id
             ORDER BY blog_post.id DESC LIMIT :limit , :offset';
 
@@ -103,9 +103,9 @@ class BlogPostManager extends BackManager
      */
     public function findBlogsForNav($id):array
     {
-        $sql = 'SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id < :id ORDER BY A.id DESC LIMIT 1) C 
-        UNION SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id = :id ORDER BY A.id LIMIT 1) C
-        UNION SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id > :id ORDER BY A.id LIMIT 1) C
+        $sql = 'SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id < :id AND A.is_published = 1 ORDER BY A.id DESC LIMIT 1) C 
+        UNION SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id = :id  AND A.is_published = 1 ORDER BY A.id LIMIT 1) C
+        UNION SELECT * FROM ( SELECT * FROM blog_post A WHERE A.id > :id  AND A.is_published = 1 ORDER BY A.id LIMIT 1) C
         ';
         $request = $this->db->prepare($sql);
         $request->bindValue(':id',$id,PDO::PARAM_INT);

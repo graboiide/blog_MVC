@@ -62,7 +62,7 @@ class CommentManager extends BackManager
         try {
             $select = implode(', ',$this->attributes);
 
-            $sql = 'SELECT '.$select.' FROM comment WHERE is_validate = 0 ORDER BY id DESC LIMIT :limit,:offset';
+            $sql = 'SELECT '.$select.' FROM comment WHERE is_validate != 1 ORDER BY id DESC LIMIT :limit,:offset';
             $request = $this->db->prepare($sql);
             $request->bindValue(':limit',$limit,PDO::PARAM_INT);
             $request->bindValue(':offset',$offset,PDO::PARAM_INT);

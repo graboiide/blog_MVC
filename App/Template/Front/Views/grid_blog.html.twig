@@ -3,7 +3,7 @@
 {% block headerTitle %} Greg codeur {% endblock %}
 {% block blog %}
 
-
+    {% include 'Front/flash.html.twig' %}
     <div class="blog_left_sidebar">
         {% for blog in blogs %}
             <article class="blog_item">

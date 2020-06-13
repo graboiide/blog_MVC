@@ -100,7 +100,17 @@ class UserManager extends BackManager
         }catch (Exception $e){
             print_r($e->getMessage());
         }
-
-
+    }
+    public function createRole($role,$userId)
+    {
+        try {
+            $sql = 'INSERT INTO role (role,user_id) VALUES (:role,:user_id)';
+            $request = $this->db->prepare($sql);
+            $request->bindValue(':role',$role);
+            $request->bindValue(':user_id',$userId);
+            $request->execute();
+        }catch (Exception $e){
+            print_r($e->getMessage());
+        }
     }
 }
