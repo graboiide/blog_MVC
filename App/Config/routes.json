@@ -44,7 +44,7 @@
     "controller": "admin",
     "name": "admin_config"
   },
-  "/show-[i:id]": {
+  "/show-[i:id]-[*:slug]?": {
     "module": "show",
     "controller": "home",
     "name": "show"

@@ -19,6 +19,7 @@ use App\Src\Service\Manager\BlogPostManager;
 use App\Src\Service\Manager\CommentManager;
 use App\Src\Service\Manager\ConfigManager;
 use App\Src\Service\Manager\UserManager;
+use App\Src\Service\Slug\Slug;
 use App\Src\Service\Upload\UploadFile;
 use DateTime;
 use Exception;
@@ -59,6 +60,7 @@ class AdminController extends BackController
             $blog = new BlogPostEntity($this->request->post());
             $date = new DateTime("now");
             $blog->setUserId(Session::get("user_id"));
+            $blog->setSlug(Slug::slugify($this->request->post('title')));
             $blog->setId($this->request->get("idBlog"));
             $blog->setIsPublished($this->request->post('action') == "Brouillon" ? 2 : 1);
             $blog->setDate( $date->format("Y-m-d"));
@@ -95,7 +97,7 @@ class AdminController extends BackController
             $date = new DateTime("now");
             $blog = new BlogPostEntity($this->request->post());
             $blog->setId($this->request->get("idBlog"));
-
+            $blog->setSlug(Slug::slugify($this->request->post('title')));
             $blog->setIsPublished(!is_null($this->request->post('brouillon')) ? 2 : 1);
             $blog->setDateMaj($date->format("Y-m-d"));
         }
@@ -111,7 +113,6 @@ class AdminController extends BackController
             //upload fichier
             $upload = new UploadFile();
             $blog->setImage($upload->setFile('imageFile')->saveFile());
-
             $manager->save($blog);
             $this->response->redirect('/admin/postblogs');
         }

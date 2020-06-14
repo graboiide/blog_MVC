@@ -33,7 +33,7 @@
                     <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
                         {% if blogs.prev %}
                         <div class="thumb">
-                            <a href="{{ router.generate('show',{"id":blogs.prev.id}) }}">
+                            <a href="{{ router.generate('show',{"id":blogs.prev.id,"slug":blogs.prev.slug}) }}">
                                 <img class="img-fluid" src="{{ blogs.prev.image }}" alt="" style="max-width: 100px">
                             </a>
                         </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="detials">
                             <p>Post précédent</p>
-                            <a href="{{ router.generate('show',{"id":blogs.prev.id}) }}">
+                            <a href="{{ router.generate('show',{"id":blogs.prev.id,"slug":blogs.prev.slug}) }}">
                                 <h4 style="color: #2d2d2d;">{{ blogs.prev.title|length > 25 ? blogs.prev.title|slice(0, 25)~'...':blogs.prev.title }}</h4>
                             </a>
                         </div>
@@ -54,7 +54,7 @@
                         {% if blogs.next %}
                         <div class="detials">
                             <p>Post suivant</p>
-                            <a href="{{ router.generate('show',{"id":blogs.next.id}) }}">
+                            <a href="{{ router.generate('show',{"id":blogs.next.id,"slug":blogs.next.slug}) }}">
                                 <h4 style="color: #2d2d2d;">{{ blogs.next.title|length > 25 ? blogs.next.title|slice(0, 25)~'...':blogs.next.title }}</h4>
                             </a>
                         </div>
@@ -64,7 +64,7 @@
                             </a>
                         </div>
                         <div class="thumb">
-                            <a href="{{ router.generate('show',{"id":blogs.next.id}) }}">
+                            <a href="{{ router.generate('show',{"id":blogs.next.id,"slug":blogs.next.slug}) }}">
                                 <img class="img-fluid" src="{{ blogs.next.image }}" alt="" style="max-width: 100px">
                             </a>
                         </div>
