@@ -35,7 +35,7 @@ class BlogPostManager extends BackManager
             }
             return $listBlogs;
         }catch (Exception $e){
-            var_dump($e->getMessage());
+            print_r($e->getMessage());
         }
 
         return null;
@@ -52,9 +52,6 @@ class BlogPostManager extends BackManager
             GROUP BY blog_post.id
             ORDER BY blog_post.id DESC LIMIT :limit , :offset';
 
-
-
-
             $request = $this->db->prepare($sql);
             $request->bindValue(':limit', $limit,PDO::PARAM_INT);
             $request->bindValue(':offset', $offset,PDO::PARAM_INT);
@@ -68,7 +65,7 @@ class BlogPostManager extends BackManager
             }
             return $listBlogs;
         }catch (Exception $e){
-            echo $e->getMessage();
+            print_r($e->getMessage());
         }
 
         return null;
@@ -136,7 +133,7 @@ class BlogPostManager extends BackManager
             return $request->fetch()['nb'];
 
         }catch (Exception $e){
-            var_dump($e->getMessage().'<br>');
+            print_r($e->getMessage().'<br>');
         }
 
         return null;
@@ -154,7 +151,7 @@ class BlogPostManager extends BackManager
             return $request->fetch()['nb'];
 
         }catch (Exception $e){
-            var_dump($e->getMessage().'<br>');
+            print_r($e->getMessage().'<br>');
         }
 
         return null;

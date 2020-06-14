@@ -1,5 +1,5 @@
 {% extends "Back/index.html.twig" %}
-
+{% block title %} Liste des blogs {% endblock %}
 {% block content %}
 
     <div class="orders">
@@ -16,10 +16,10 @@
                                 <thead>
                                 <tr>
                                     <th class="serial">#</th>
-                                    <th>Date</th>
+                                    <th class="avatar">Date</th>
                                     <th class="avatar">Auteur</th>
                                     <th>Titre</th>
-                                    <th>Status</th>
+                                    <th class="avatar">Status</th>
 
                                     <th></th>
                                     <th></th>
@@ -31,7 +31,7 @@
                                 {% for blog in blogs %}
                                     <tr>
                                         <td class="serial">{{ loop.index + nbPerPage * (page - 1) }}.</td>
-                                        <td >
+                                        <td class="avatar">
 
                                                 {{ blog.date|date("m/d/Y") }}
 
@@ -39,11 +39,11 @@
                                         <td class="avatar"> {{ blog.author }} </td>
                                         <td><a href="{{ router.generate("modifBlog",{idBlog:blog.id}) }}"><span class="name">{{ blog.title }}</span></a>   </td>
                                         {% if blog.isPublished == 1 %}
-                                            <td> <span class="badge badge-complete">publié</span> </td>
+                                            <td class="avatar"> <span class="badge badge-complete">publié</span> </td>
                                         {% else %}
-                                            <td> <span class="badge badge-pending">brouillon</span> </td>
+                                            <td class="avatar"> <span class="badge badge-pending">brouillon</span> </td>
                                         {% endif %}
-                                        <td>
+                                        <td >
                                         {% if blog.nbComment > 0%}
                                             <a href="{{ router.generate("admin_comments",{action:'blog',page:1,idBlog:blog.id}) }}" class="fa fa-comment fa-2x">{{ blog.nbComment }}</a>
                                         {% endif %}

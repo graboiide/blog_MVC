@@ -26,6 +26,7 @@ class ConfigForm extends FormBuilder
            ->addField(Upload::class,[
                "name"=>"imageFile"
            ])
+           ->addValidator(UploadValidate::class)
            ->addField(Textarea::class,[
                "name"=>"presentation",
                "label"=>"Presentation",

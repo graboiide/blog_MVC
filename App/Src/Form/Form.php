@@ -7,6 +7,7 @@ namespace App\Src\Form;
 use App\Src\Form\Field\Field;
 use App\Src\Form\Field\Hidden;
 use App\Src\Security\CsrfSecurity;
+use App\Src\Service\FlashBag\FlashBag;
 use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\HTTP\Session;
 
@@ -138,7 +139,7 @@ class Form
 
         $valid = true;
         if(!CsrfSecurity::isValid($this->request->post('token'))){
-            echo 'Csrf error';
+            FlashBag::set('Csrf error','error');
             return false;
         }
         /**

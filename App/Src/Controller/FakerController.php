@@ -117,8 +117,8 @@ class FakerController extends BackController
         ]);
 
         $managerUser->save($admin2);
-        $managerUser->createRole('admin',1);
-        $managerUser->createToken(uniqid(),1);
+        $managerUser->createRole('admin',2);
+        $managerUser->createToken(uniqid(),2);
 
     }
     private function addConfig()

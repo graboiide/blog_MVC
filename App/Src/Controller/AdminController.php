@@ -263,10 +263,7 @@ class AdminController extends BackController
         $configManager = $this->manager->getEntityManager(ConfigEntity::class);
         //config modifier
         if($this->request->method()=='POST'){
-            $upload= new UploadFile();
             $config = new ConfigEntity(array_merge($this->request->post(),["id"=>1]));
-            $config->setPicture($upload->setFile('imageFile')->saveFile());
-            $config->setCv($upload->setFile('cvFile')->saveFile());
         }//config charger
         else
             $config = $configManager->getConfig();
@@ -277,6 +274,9 @@ class AdminController extends BackController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $upload= new UploadFile();
+            $config->setPicture($upload->setFile('imageFile')->saveFile());
+            $config->setCv($upload->setFile('cvFile')->saveFile());
             $configManager->save($config);
             $this->response->redirect('/admin/config');
         }

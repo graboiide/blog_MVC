@@ -1,9 +1,9 @@
 {% extends "Back/index.html.twig" %}
-
+{% block title %} Ajouter un blog {% endblock %}
 {% block content %}
 
     <div class="row">
-<div class="dd" id="dd">dddd</div>
+
         <div class="col-12">
             <div class="card">
                 <h1 class="box-title p-3">Ajouter un blog Post</h1>
@@ -22,6 +22,7 @@
                             <img src="{{ form.field('image').getValue() }}" alt="">
                         {% endif %}
                         {{ form.widget("image")|raw }}
+                        {{ form.error('imageFile')|raw }}
                         <div class="custom-file">
                             {{ form.field("imageFile").getWidget|raw }}
                             <label class="custom-file-label" for="uploadFile">Choisissez une image</label>
