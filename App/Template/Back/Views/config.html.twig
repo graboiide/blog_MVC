@@ -16,7 +16,7 @@
                                     <div class="form-group">
                                         {{ form.widget("name")|raw }}
                                     </div>
-                                    <i class="fa far fa-save"></i><a href="{{ assets }}{{ config.cv }}"> {{ config.cv }} </a>
+                                    <i class="fa far fa-save"></i><a href="{{ config.cv }}"> {{ config.cv }} </a>
                                     <div class="form-group">
                                         {{ form.error('cvFile')|raw }}
                                         <div class="custom-file">
@@ -25,7 +25,7 @@
                                         </div>
 
                                     </div>
-                                    <img src="{{ assets }}{{ config.picture }}" alt="">
+                                    <img src="{{ config.picture }}" alt="">
                                     <div class="form-group">
                                         <div class="custom-file">
                                             {{ form.field("imageFile").getWidget|raw }}

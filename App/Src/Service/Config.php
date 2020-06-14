@@ -7,8 +7,13 @@ namespace App\Src\Service;
  * @package App\Src\Service
  */
 
-class Config
+Class Config
 {
+    static private  $host = "localhost";
+    static private  $dbName = "p5_blog";
+    static private  $user = "root";
+    static private  $passxord ="";
+
 
     static public function getVar($targetVar)
     {
@@ -22,5 +27,13 @@ class Config
         return $json[$targetVar];
 
 
+    }
+    static function getDBconnexion()
+    {
+        return [
+            "host"=>self::$host,
+            "dbname"=>self::$dbName,
+            "user"=>self::$user,
+            "password"=>self::$passxord];
     }
 }

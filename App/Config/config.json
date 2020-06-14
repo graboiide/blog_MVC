@@ -2,20 +2,9 @@
   "twig": {
     "template_path": "App/Template/"
   },
-  "blog_post": {
-    "number_home": 5,
-    "number_per_page": 5,
-    "order": "by_date"
-  },
   "router": {
     "route_path": "App/Config/routes.json",
     "file_type": "json"
-  },
-  "database": {
-    "host": "localhost",
-    "dbname": "p5_blog",
-    "user": "root",
-    "password": ""
   },
   "form": {
     "template": "bootstrap"

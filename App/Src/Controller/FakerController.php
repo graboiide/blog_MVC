@@ -13,6 +13,7 @@ use App\Src\Service\Entity\BlogPostEntity;
 use App\Src\Service\Entity\CommentEntity;
 use App\Src\Service\Entity\ConfigEntity;
 use App\Src\Service\Entity\UserEntity;
+use App\Src\Service\FlashBag\FlashBag;
 use App\Src\Service\HTTP\HttpRequest;
 use App\Src\Service\HTTP\Session;
 use App\Src\Service\Manager\BlogPostManager;
@@ -28,14 +29,27 @@ use Faker;
 class FakerController extends BackController
 {
     private $faker;
+    /**
+     * @var UserManager $managerUser
+     */
+    private $managerUser;
     public function __construct(App $app, $action, HttpRequest $request)
     {
         parent::__construct($app, $action, $request);
         $this->faker = Faker\Factory::create();
+        $this->managerUser = $this->manager->getEntityManager(UserEntity::class);
     }
 
     public function faker()
     {
+        if($this->managerUser->getUser(1) !== null){
+
+            FlashBag::set("Des données sont déja présente, impossible d'utilisé Faker",'warning');
+            $this->response->redirect('/blog');
+            return ;
+        }
+
+
         $this->addUser();
         $this->addConfig();
         $manager = $this->manager->getEntityManager(BlogPostEntity::class);
@@ -79,10 +93,8 @@ class FakerController extends BackController
     private function addUser()
     {
         dump("ajout de l'utilisateur admin");
-        /**
-         * @var UserManager $managerUser
-         */
-        $managerUser = $this->manager->getEntityManager(UserEntity::class);
+
+        $managerUser = $this->managerUser;
         $admin = new UserEntity([
             "name"=>"admin",
             "admin@gregcodeur.fr",

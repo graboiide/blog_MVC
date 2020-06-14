@@ -118,6 +118,13 @@ class HomeController extends BackController
 
         $this->render('Back/Views/connect.html.twig',["form"=>$form]);
     }
+    public function disconnectUser()
+    {
+        $this->request->setCookie(["token",'',0]);
+        Session::unset('connect');
+        FlashBag::set('Vous avez été déconnecté','notify');
+        $this->response->redirect("/blog");
+    }
 
     public function inscription()
     {
@@ -142,6 +149,9 @@ class HomeController extends BackController
             $managerUser = $this->manager->getEntityManager(UserEntity::class);
             $idUser = $managerUser->save($user);
             $managerUser->createToken(uniqid(),$idUser);
+
+            FlashBag::set('Votre inscription à réussi, un administrateur va la valider sous 24h','notify');
+
             $this->response->redirect("/blog");
 
         }
@@ -149,22 +159,7 @@ class HomeController extends BackController
 
         $this->render('Back/Views/inscription.html.twig',["form"=>$form]);
     }
-    public function contact()
-    {
 
-        $builderForm = new ContactForm();
-        $builderForm->buildForm();
-
-        $form = $builderForm->createForm($this->request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            //mail('graboiide@gmail.com', 'mail test', 'test de message');
-
-        }
-
-
-        $this->render('Front/Views/contact.html.twig',["form"=>$form]);
-    }
     public function home()
     {
         /**
@@ -173,14 +168,26 @@ class HomeController extends BackController
         $manager = $this->manager->getEntityManager(ConfigEntity::class);
         $builderForm = new ContactForm();
         $builderForm->buildForm();
+        $config = $manager->getConfig();
 
         $form = $builderForm->createForm($this->request);
 
         if($form->isSubmitted() && $form->isValid()){
-            //mail('graboiide@gmail.com', 'mail test', 'test de message');
+            $headers = 'From: '.$this->request->post('email') . "\r\n" .
+                'Reply-To:'.$this->request->post('email') . "\r\n" ;
+                $message = 'Message de : '.$this->request->post('name').' '.$this->request->post('prenom'). "\r\n".$this->request->post('message');
+
+            //empecher l'envoie de plusieurs mail a la suite
+            
+                FlashBag::set("Votre message à bien été envoyé");
+                $this->response->redirect("/#contact");
+                mail($config->getEmail(), $this->request->post('subject'), $message,$headers);
+
+            Session::set('mailSending','sending');
+
 
         }
-        $this->render('Front/Views/home.html.twig',["config"=>$manager->getConfig(),"form"=>$form]);
+        $this->render('Front/Views/home.html.twig',["config"=>$config,"form"=>$form]);
     }
 
 
