@@ -34,7 +34,7 @@ class BackController
         $this->action = $action;
         $this->request = $request;
         $this->response = new HttpResponse();
-        $this->manager = new Manager(DBFactory::PDOMysqlDB(Config::getVar('database')));
+        $this->manager = new Manager(DBFactory::PDOMysqlDB(Config::getDBconnexion()));
         $this->userHandler = new HandlerUser($this->request,$this->manager);
         $this->flash();
     }

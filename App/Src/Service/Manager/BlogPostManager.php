@@ -148,7 +148,7 @@ class BlogPostManager extends BackManager
     public function countBrouillon()
     {
         try {
-            $sql = 'SELECT COUNT(*) as nb FROM blog_post WHERE is_published = 0';
+            $sql = 'SELECT COUNT(*) as nb FROM blog_post WHERE is_published != 1';
             $request = $this->db->query($sql);
             $request->execute();
             return $request->fetch()['nb'];

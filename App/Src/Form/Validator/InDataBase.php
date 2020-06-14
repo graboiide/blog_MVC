@@ -34,7 +34,7 @@ class InDataBase extends Validator
         /**
          * @var Manager $manager
          */
-        $manager = new Manager(DBFactory::PDOMysqlDB(Config::getVar('database')));
+        $manager = new Manager(DBFactory::PDOMysqlDB(Config::getDBconnexion()));
         $managerEntity =  $manager->getEntityManager($this->entityClassName);
         /**
          * @var BackManager $managerEntity

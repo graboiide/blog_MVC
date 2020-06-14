@@ -3,8 +3,8 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10">
+<div class="dd" id="dd">dddd</div>
+        <div class="col-12">
             <div class="card">
                 <h1 class="box-title p-3">Ajouter un blog Post</h1>
                 <div class="card-header">
@@ -23,7 +23,7 @@
                         {% endif %}
                         {{ form.widget("image")|raw }}
                         <div class="custom-file">
-                            {{ form.widget("imageFile")|raw }}
+                            {{ form.field("imageFile").getWidget|raw }}
                             <label class="custom-file-label" for="uploadFile">Choisissez une image</label>
                         </div>
 
@@ -57,13 +57,7 @@
         </div>
     </div>
 
-    <script>
-        // Add the following code if you want the name of the file appear on select
-        $(".custom-file-input").on("change", function() {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-        });
-    </script>
+
 {% endblock %}
 {% block script %}
     <script src='https://cdn.tiny.cloud/1/itw6zjvo00kdoysnm6iq0ee1yxvvuecxe4xke8r2rxhox1rh/tinymce/5/tinymce.min.js' referrerpolicy="origin">
@@ -72,5 +66,8 @@
         tinymce.init({
             selector: '#contain'
         });
+
+
     </script>
+    <script src="{{ assets }}/Back/js/upload.js"></script>
 {% endblock %}

@@ -89,5 +89,10 @@
     "module": "faker",
     "controller": "faker",
     "name": "admin_faker"
+  },
+  "/disconnect": {
+    "module": "disconnectUser",
+    "controller": "home",
+    "name": "disconnect"
   }
 }
