@@ -20,7 +20,7 @@
                                     <div class="form-group">
                                         {{ form.error('cvFile')|raw }}
                                         <div class="custom-file">
-                                            {{ form.widget("cvFile")|raw }}
+                                            {{ form.field("cvFile").getWidget|raw }}
                                             <label class="custom-file-label" for="uploadFile">Télécharger le CV</label>
                                         </div>
 
@@ -28,7 +28,7 @@
                                     <img src="{{ assets }}{{ config.picture }}" alt="">
                                     <div class="form-group">
                                         <div class="custom-file">
-                                            {{ form.widget("imageFile")|raw }}
+                                            {{ form.field("imageFile").getWidget|raw }}
                                             <label class="custom-file-label" for="uploadFile">Télécharger une photo</label>
                                         </div>
                                     </div>
@@ -52,4 +52,7 @@
     </div>
 
 
+{% endblock %}
+{% block script %}
+    <script src="{{ assets }}/Back/js/upload.js"></script>
 {% endblock %}
