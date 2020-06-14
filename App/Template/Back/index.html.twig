@@ -153,11 +153,12 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="{{ router.generate("admin_profile",{idUser:adminIdUser}) }}"><i class="fa fa- user"></i>Mon profil</a>
+                            <a class="nav-link" href="{{ router.generate("admin_profile",{idUser:adminIdUser}) }}"><i class="fa fa-user"></i>Mon profil</a>
 
-                            <a class="nav-link" href="{{ router.generate("admin_config") }}"><i class="fa fa -cog"></i>Parametres</a>
+                            <a class="nav-link" href="{{ router.generate("admin_config") }}"><i class="fa fa-cog"></i>Parametres</a>
+                            <a class="nav-link" href="{{ router.generate("home") }}"><i class="fa fa-home"></i>Accueil</a>
 
-                            <a class="nav-link" href="{{ router.generate("disconnect") }}"><i class="fa fa-power -off"></i>Se deconnecter</a>
+                            <a class="nav-link" href="{{ router.generate("disconnect") }}"><i class="fa fa-power-off"></i>Se deconnecter</a>
                         </div>
                     </div>
 

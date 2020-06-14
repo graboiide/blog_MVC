@@ -65,7 +65,7 @@ class BackController
             //on verifie qu'il est connecté ou que la variable session a le bon role
         if(array_key_exists($class,$protected) && (!$this->userHandler->isConnected() || Session::get('connect') != $protected[$class])){
             $response = new HttpResponse();
-            $response->redirect('admin/connect');
+            $response->redirect($this->app->getRouter()->generate('connect'));
         }
 
         $method = $this->action;
