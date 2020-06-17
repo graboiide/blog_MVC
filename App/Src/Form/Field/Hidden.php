@@ -8,15 +8,16 @@ class Hidden extends Field
     protected $maxLength;
     public function getWidget()
     {
+
         return '
                 <input 
                 name="'.$this->name.'"
                 class="form-control" 
-                type="hidden" id="id" 
+                type="hidden"
                 '.$this->minLength.'
                 '.$this->maxLength.'
                 value="'.$this->value.'"
-                id="'.$this->id.'"
+                 id="'.$this->id.'"
                 '.$this->required.'
                 '.$this->placeholder.'>
             ';

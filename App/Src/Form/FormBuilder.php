@@ -42,6 +42,13 @@ class FormBuilder
 
         return $this;
     }
+    public function removeField($nameField)
+    {
+        if ($this->fields[$nameField] !== null)
+            unset($this->fields[$nameField]);
+
+        return $this;
+    }
 
     /**
      * Ajoute un validateur a un champ

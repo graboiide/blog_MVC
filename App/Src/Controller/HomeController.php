@@ -5,6 +5,7 @@ namespace App\Src\Controller;
 use App\Src\Form\CommentForm;
 use App\Src\Form\ConnectForm;
 use App\Src\Form\ContactForm;
+use App\Src\Form\Field\Hidden;
 use App\Src\Form\Form;
 use App\Src\Form\InscriptionForm;
 use App\Src\Service\Entity\BlogPostEntity;
@@ -71,21 +72,26 @@ class HomeController extends BackController
                 "postBlogId"=>(int)$this->request->get('id'),
                 "date"=> $dateNow->format('Y-m-d H:m')
             ]));
+
         else
             $comment = new CommentEntity();
-
+        $messageFlash = 'Votre commentaire à été ajouté et soumis à la validation';
         $formBuilder = new CommentForm($comment);
+        // pour les admin on retire le champ name et modifie l'entity comment
         $formBuilder->buildForm();
-
+        if(Session::get('connect') === 'admin'){
+            $comment->setIsValidate(1);
+            $comment->setName($userManager->getUser(Session::get('user_id'))->getName());
+            $formBuilder->removeField('name');
+            $messageFlash = 'Votre commentaire à été ajouté ';
+        }
         /**
          * @var Form $form
          */
         $form = $formBuilder->createForm($this->request);
-
-
         if($form->isSubmitted() && $form->isValid()){
             $commentManager->save($comment);
-           FlashBag::set('Votre méssage à été ajouté et soumis à la validation');
+            FlashBag::set($messageFlash);
             $this->response->redirect($this->request->uri());
         }
         $this->render('Front/Views/show.html.twig',["blogs"=>$blogs,"comments"=>$comments,"form"=>$form,'author'=>$userManager->getUser($blogs["target"]->getUserId())]);
