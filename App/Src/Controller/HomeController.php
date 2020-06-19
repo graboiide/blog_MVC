@@ -77,7 +77,7 @@ class HomeController extends BackController
         $formBuilder = new CommentForm($comment);
         // pour les admin on retire le champ name et modifie l'entity comment
         $formBuilder->buildForm();
-        if(Session::get('connect') === 'admin'){
+        if($this->userHandler->isConnected() && Session::get('connect') === 'admin')  {
             $comment->setIsValidate(1);
             $comment->setName($this->userManager->getUser(Session::get('user_id'))->getName());
             $formBuilder->removeField('name');
